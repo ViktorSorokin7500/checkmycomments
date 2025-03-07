@@ -2,11 +2,19 @@
 
 import { Button } from "@/components/ui";
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import LangSwitcher from "./LangSwitcher";
+import { Locale } from "@/i18n.config";
+import { usePathname } from "next/navigation";
 
 export function Header() {
+  const pathname = usePathname();
+  const lang = pathname.split("/")[1] as Locale;
+
+  console.log(lang);
+
   return (
     <header className="flex justify-between items-center p-4 bg-forest-night">
-      <div />
+      <LangSwitcher lang={lang} />
       <div className="flex items-center">
         <SignedIn>
           <UserButton
