@@ -13,9 +13,13 @@ const LangSwitcher = ({ lang }: { lang: Locale }) => {
     return segment.join("/");
   };
   return (
-    <Link locale={targetLanguage} href={redirectTarget()}>
-      {targetLanguage === "uk" && <span>UA</span>}
-      {targetLanguage === "en" && <span>EN</span>}
+    <Link href={redirectTarget()}>
+      {targetLanguage === "uk" && (
+        <span className="p-2 bg-sunset-glow rounded">UA</span>
+      )}
+      {targetLanguage === "en" && (
+        <span className="p-2 bg-sunset-glow rounded">EN</span>
+      )}
     </Link>
   );
 };

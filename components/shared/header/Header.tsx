@@ -10,8 +10,6 @@ export function Header() {
   const pathname = usePathname();
   const lang = pathname.split("/")[1] as Locale;
 
-  console.log(lang);
-
   return (
     <header className="flex justify-between items-center p-4 bg-forest-night">
       <LangSwitcher lang={lang} />

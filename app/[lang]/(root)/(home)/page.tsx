@@ -1,12 +1,33 @@
-import { ModalsHome } from "@/components/shared";
-import React from "react";
+import {
+  Benefits,
+  Efficiency,
+  Hero,
+  Researching,
+  WhoWeAre,
+} from "@/components/shared";
+import { Locale } from "@/i18n.config";
 
-const Home = () => {
+// Функція для завантаження словників на сервері
+async function getDictionary(lang: Locale) {
+  const dictionary = await import(`@/dictionaries/${lang}.json`);
+  return dictionary.default;
+}
+
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dictionary = await getDictionary(lang);
+
   return (
     <>
-      <ModalsHome />
+      <Hero t={dictionary.home.hero} />
+      <WhoWeAre t={dictionary.home.wwa} />
+      <Researching t={dictionary.home.researching} />
+      <Benefits t={dictionary.home.benefits} />
+      <Efficiency t={dictionary.home.efficiency} />
     </>
   );
-};
-
-export default Home;
+}

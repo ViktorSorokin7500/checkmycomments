@@ -1,5 +1,53 @@
 {
-  "contacts": {
-    "title": "Contacts"
+  "home": {
+    "hero": {
+      "title": "Break Down Your Comments with",
+      "subtitle": "We turn your audience’s thoughts into a spectrum of emotions and insights. Deeper understanding of every comment—in numbers and between the lines.",
+      "cta": "Try It Now",
+      "beta": "Beta version: Support us to make the product even better!"
+    },
+    "wwa": {
+      "title": "Who We Are",
+      "description": "We’re a team helping bloggers and content creators understand their audience through comments. Our AI analyzes every post or video to show you what works and what doesn’t. This is our beta—support us to build the full product!"
+    },
+    "researching": {
+      "description": "Dive into the stream of comments across all your platforms to capture the true voice of your audience. No word will go unnoticed."
+    },
+    "benefits": {
+      "title": "Unveil Your Audience's Thoughts and Feelings",
+      "subtitle": "Insights from Comments:",
+      "description1": "Turn every comment into clear data—emotions and feedback in numbers.",
+      "description2": "Create engaging content by understanding what matters to your followers.",
+      "description3": "Analyze platforms from X to Instagram in real time, wherever you are."
+    },
+    "efficiency": {
+      "title": "Time Savings with CommentPulse for Bloggers",
+      "classic": {
+        "title": "Manual Analysis of 500 Comments",
+        "task1": "Reviewing and reading all comments",
+        "time1": "4-6 hours",
+        "task2": "Identifying tone, key topics, and trends",
+        "time2": "1-2 hours",
+        "task3": "Analyzing engagement",
+        "time3": "1-2 hours",
+        "task4": "Drawing conclusions",
+        "time4": "1-2 hours",
+        "total": "Total time spent:",
+        "hours": "7-12 hours"
+      },
+      "commentPulse": {
+        "title": "CommentPulse",
+        "task1": "Collecting all comments",
+        "time1": "Instantly",
+        "task2": "Analyzing emotions, topics, and trends",
+        "time2": "Instantly",
+        "task3": "Engagement analysis",
+        "time3": "Instantly",
+        "task4": "Generating insights",
+        "time4": "Instantly",
+        "total": "Total time spent:",
+        "hours": "A few seconds"
+      }
+    }
   }
 }
