@@ -12,7 +12,7 @@ interface BenefitsProps {
 
 export function Benefits({ t }: BenefitsProps) {
   return (
-    <section className="py-12 flex justify-center">
+    <section className="p-6 mb:py-12 flex justify-center">
       <div className="flex flex-col md:flex-row max-w-4xl lg:max-w-5xl gap-6 lg:gap-12">
         <div className="flex-1 text-center md:text-left">
           <span className="text-lime-zest text-sm md:text-base uppercase tracking-wider animate-fade-in">

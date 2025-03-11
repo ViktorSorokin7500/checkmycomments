@@ -48,6 +48,14 @@
         "total": "Total time spent:",
         "hours": "A few seconds"
       }
+    },
+    "pricing": {
+      "title": "Subscription Purchase",
+      "priceLabel": "Price:",
+      "solPrice": "{solAmount} SOL",
+      "usdEquivalent": "(equivalent to $5)",
+      "note": "Price updates every 5 minutes based on SOL rate."
     }
-  }
+  },
+  "footer": "Contact Us"
 }

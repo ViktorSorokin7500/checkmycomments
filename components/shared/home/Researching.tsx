@@ -24,7 +24,7 @@ export function Researching({ t }: ResearchingProps) {
     { src: Youtube, alt: "YouTube" },
   ];
   return (
-    <section className="py-12">
+    <section className="py-6 mb:py-12">
       <div className="max-w-5xl mx-auto px-6">
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 mb-12">
           {logos.map((logo) => (
@@ -56,7 +56,7 @@ export function Researching({ t }: ResearchingProps) {
             />
           </div>
 
-          <div className="text-center max-w-sm p-4 bg-soft-fog/20 backdrop-blur-sm shadow-lg rounded-lg">
+          <div className="text-center max-w-sm p-4 bg-soft-fog/20 shadow-lg rounded-lg">
             <p className="text-base md:text-lg text-bright-snow font-semibold leading-relaxed animate-fade-in-delay">
               {t.description}
             </p>

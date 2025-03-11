@@ -1,7 +1,9 @@
 import {
   Benefits,
   Efficiency,
+  Footer,
   Hero,
+  Pricing,
   Researching,
   WhoWeAre,
 } from "@/components/shared";
@@ -28,6 +30,8 @@ export default async function Home({
       <Researching t={dictionary.home.researching} />
       <Benefits t={dictionary.home.benefits} />
       <Efficiency t={dictionary.home.efficiency} />
+      <Pricing t={dictionary.home.pricing} lang={lang} />
+      <Footer t={dictionary.footer} />
     </>
   );
 }

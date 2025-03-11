@@ -39,7 +39,7 @@ const EfficiencySection = ({
   ];
 
   return (
-    <div className="bg-soft-fog/20 shadow-lg max-w-lg w-3/4 lg:w-1/2 py-4 px-8 rounded-lg animate-fade-in-delay">
+    <div className="bg-soft-fog/20 shadow-lg max-w-lg lg:w-1/2 py-4 px-8 rounded-lg animate-fade-in-delay">
       <h3
         className={`text-3xl text-center ${
           isCommentPulse ? "text-lime-zest" : "sunset-glow"
@@ -82,7 +82,7 @@ const EfficiencySection = ({
 
 export function Efficiency({ t }: EfficiencyProps) {
   return (
-    <section className="py-12 flex flex-col justify-center items-center lg:flex-row gap-12 lg:gap-8">
+    <section className="py-6 mb:py-12 flex flex-col justify-center items-center lg:flex-row gap-12 lg:gap-8">
       <EfficiencySection data={t.classic} />
       <EfficiencySection data={t.commentPulse} isCommentPulse />
     </section>

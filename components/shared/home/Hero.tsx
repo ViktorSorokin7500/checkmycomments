@@ -14,7 +14,7 @@ interface HeroProps {
 
 export function Hero({ t }: HeroProps) {
   return (
-    <section className="flex flex-col md:flex-row items-center justify-around px-6 pb-12 text-bright-snow relative overflow-hidden">
+    <section className="flex flex-col md:flex-row items-center justify-around px-6 pb-6 md:pb-12 text-bright-snow relative overflow-hidden">
       {/* Текстовий блок */}
       <div className="z-10 max-w-lg text-center md:text-left mb-8 md:mb-0">
         <h2 className="text-2xl md:text-3xl font-semibold tracking-tight animate-fade-in">
