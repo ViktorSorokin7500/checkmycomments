@@ -21,9 +21,12 @@ export function Pricing({ t, lang }: PricingProps) {
 
   const fetchPrices = useCallback(async () => {
     try {
-      const response = await fetch(
-        "https://api.coingecko.com/api/v3/simple/price?ids=solana,usd&vs_currencies=usd,uah"
-      );
+      console.log("Fetching prices from /api/prices");
+      const response = await fetch("/api/prices", { cache: "no-store" }); // Абсолютний шлях
+      if (!response.ok) {
+        console.log("Response status:", response.status);
+        throw new Error("Failed to fetch prices");
+      }
       const data = await response.json();
 
       const solUsd = data.solana.usd;
@@ -50,7 +53,7 @@ export function Pricing({ t, lang }: PricingProps) {
     const interval = setInterval(() => {
       fetchPrices();
       console.log("Оновлення цін:", new Date().toLocaleTimeString());
-    }, 5 * 60 * 1000);
+    }, 5 * 60 * 1000); // 5 хвилин
     return () => clearInterval(interval);
   }, [fetchPrices, lang]);
 

@@ -57,5 +57,10 @@
       "note": "Price updates every 5 minutes based on SOL rate."
     }
   },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome to your dashboard!",
+    "cta": "Try It Now"
+  },
   "footer": "Contact Us"
 }

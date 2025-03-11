@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui";
 import Image from "next/image";
 import React from "react";
 import HeroImg from "../../../public/assets/hero.png";
+import { HeroButton } from "./HeroButton";
 
 interface HeroProps {
   t: {
@@ -41,9 +41,7 @@ export function Hero({ t }: HeroProps) {
         <p className="text-sm mt-4 opacity-75 animate-fade-in-delay">
           {t.beta}
         </p>
-        <Button className="mt-6 px-8 py-3 bg-lime-zest text-forest-night font-semibold rounded-full hover:bg-sunset-glow hover:text-bright-snow transition-all duration-300 animate-glow animate-fade-in-delay">
-          {t.cta}
-        </Button>
+        <HeroButton cta={t.cta} />
       </div>
     </section>
   );

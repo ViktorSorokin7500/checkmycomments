@@ -19,9 +19,13 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ lang: Locale }>;
 }) {
+  const { lang } = await params;
   return (
-    <ClerkProvider>
-      <html lang={(await params).lang === "en" ? "en-US" : "uk-UA"}>
+    <ClerkProvider
+      signInFallbackRedirectUrl={`/${lang}/dashboard`}
+      signUpFallbackRedirectUrl={`/${lang}/dashboard`}
+    >
+      <html lang={lang === "en" ? "en-US" : "uk-UA"}>
         <body className="bg-forest-night text-bright-snow">{children}</body>
       </html>
     </ClerkProvider>
