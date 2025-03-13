@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Locale, i18n } from "@/i18n.config";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Social Analyzer",
@@ -26,7 +27,10 @@ export default async function RootLayout({
       signUpFallbackRedirectUrl={`/${lang}/dashboard`}
     >
       <html lang={lang === "en" ? "en-US" : "uk-UA"}>
-        <body className="bg-forest-night text-bright-snow">{children}</body>
+        <body className="bg-forest-night text-bright-snow">
+          {children}
+          <Toaster position="top-right" />
+        </body>
       </html>
     </ClerkProvider>
   );

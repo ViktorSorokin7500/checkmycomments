@@ -1,8 +1,7 @@
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { SignOutButton } from "@clerk/nextjs";
-import { Button } from "@/components/ui/button";
 import { Locale } from "@/i18n.config";
+import { DashboardComments } from "@/components/shared";
 
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);
@@ -25,13 +24,10 @@ export default async function Dashboard({
 
   return (
     <div className="py-12 text-center">
-      <h1 className="text-3xl font-semibold">{dictionary.dashboard.title}</h1>
-      <p className="text-lg  mt-4">{dictionary.dashboard.welcome}</p>
-      <SignOutButton redirectUrl="/">
-        <Button className="mt-6 bg-sunset-glow">
-          {dictionary.dashboard.cta}
-        </Button>
-      </SignOutButton>
+      <h1 className="text-3xl font-semibold">
+        {dictionary.dashboard.main.title}
+      </h1>
+      <DashboardComments t={dictionary.dashboard.main} lang={lang} />
     </div>
   );
 }

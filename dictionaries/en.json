@@ -57,10 +57,23 @@
       "note": "Price updates every 5 minutes based on SOL rate."
     }
   },
+
   "dashboard": {
-    "title": "Dashboard",
-    "welcome": "Welcome to your dashboard!",
-    "cta": "Try It Now"
+    "sidebar": {
+      "aside": {
+        "checkComments": "View Comments",
+        "notAllowed": "Temporarily Inactive",
+        "changeLanguage": "Change Language",
+        "escape": "Exit"
+      },
+      "header": "Analyzing comments under the post/video - "
+    },
+    "modals": {},
+    "main": {
+      "title": "Dashboard",
+      "welcome": "Welcome to your dashboard!",
+      "cta": "Try It Now"
+    }
   },
   "footer": "Contact Us"
 }

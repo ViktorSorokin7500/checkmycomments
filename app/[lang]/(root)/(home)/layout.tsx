@@ -1,6 +1,6 @@
 import { Header } from "@/components/shared";
 
-export default function MainLayout({
+export default function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
