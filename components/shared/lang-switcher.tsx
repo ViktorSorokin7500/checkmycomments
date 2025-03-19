@@ -1,9 +1,16 @@
 "use client";
 import { Locale } from "@/i18n.config";
+import { Languages } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const LangSwitcher = ({ lang }: { lang: Locale }) => {
+interface LangSwitcherProps {
+  lang: Locale;
+  title: string;
+  className?: string;
+}
+
+const LangSwitcher = ({ lang, title, className }: LangSwitcherProps) => {
   const targetLanguage = lang === "en" ? "uk" : "en";
   const pathname = usePathname();
   const redirectTarget = () => {
@@ -13,13 +20,8 @@ const LangSwitcher = ({ lang }: { lang: Locale }) => {
     return segment.join("/");
   };
   return (
-    <Link href={redirectTarget()}>
-      {targetLanguage === "uk" && (
-        <span className="p-2 bg-sunset-glow rounded">UA</span>
-      )}
-      {targetLanguage === "en" && (
-        <span className="p-2 bg-sunset-glow rounded">EN</span>
-      )}
+    <Link href={redirectTarget()} className={className} title={title}>
+      <Languages size={20} />
     </Link>
   );
 };

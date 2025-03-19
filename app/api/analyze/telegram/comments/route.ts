@@ -48,7 +48,7 @@ async function analyzeCommentsChunk(comments: string[], lang: "en" | "uk") {
 - "description" — детальний опис, що саме обговорюється, які настрої переважають (позитивні, негативні, агресивні), які слова чи особи згадуються,
 - "percentage" — відсоток коментарів у цій категорії (число від 0 до 100),
 - "examples" — 2-3 приклади коментарів (дослівно, без змін).
-Якщо категорій більше 5, об’єднай решту в "Інше" з описом, що це за різнобій. Тільки JSON, без додаткового тексту. Відповідь — українською. Ось коментарі:\n${comments
+Тільки JSON, без додаткового тексту. Відповідь — українською. Ось коментарі:\n${comments
           .map((c) => `- ${c}`)
           .join("\n")}`
       : `Analyze the provided comments and categorize them into a maximum of six categories based on key themes, emotional tone, and significant mentions (personalities, events, terms). Return the result as a complete JSON string in double quotes with an array of objects: [{"title": "", "description": "", "percentage": 0, "examples": [""]}], where:
@@ -56,7 +56,7 @@ async function analyzeCommentsChunk(comments: string[], lang: "en" | "uk") {
 - "description" — a detailed explanation of what is discussed, the prevailing sentiments (positive, negative, aggressive), and notable words or persons mentioned,
 - "percentage" — the percentage of comments in this category (a number from 0 to 100),
 - "examples" — 2-3 verbatim comment examples (unaltered).
-If there are more than five categories, merge the rest into "Other" with a description of what this miscellany includes. Only JSON, no additional text. Response — in English. Here are the comments:\n${comments
+Only JSON, no additional text. Response — in English. Here are the comments:\n${comments
           .map((c) => `- ${c}`)
           .join("\n")}`;
 
@@ -242,7 +242,6 @@ function combineResults(
     0
   );
   if (totalPercentage === 0) {
-    // Если проценты не пришли, распределяем равномерно
     combined.forEach((item) => {
       item.percentage = Math.round(100 / combined.length);
     });

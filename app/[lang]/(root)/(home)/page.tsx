@@ -1,15 +1,13 @@
 import {
-  Benefits,
-  Efficiency,
-  Footer,
-  Hero,
-  Pricing,
-  Researching,
-  WhoWeAre,
-} from "@/components/shared";
+  CTAsection,
+  DemoSection,
+  HeroSection,
+  HowItWorksSection,
+  PricingSection,
+} from "@/components/home";
+import { BgGradient } from "@/components/shared";
 import { Locale } from "@/i18n.config";
 
-// Функція для завантаження словників на сервері
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);
   return dictionary.default;
@@ -24,14 +22,15 @@ export default async function Home({
   const dictionary = await getDictionary(lang);
 
   return (
-    <>
-      <Hero t={dictionary.home.hero} />
-      <WhoWeAre t={dictionary.home.wwa} />
-      <Researching t={dictionary.home.researching} />
-      <Benefits t={dictionary.home.benefits} />
-      <Efficiency t={dictionary.home.efficiency} />
-      <Pricing t={dictionary.home.pricing} lang={lang} />
-      <Footer t={dictionary.footer} />
-    </>
+    <div className="relative w-full">
+      <BgGradient />
+      <div className="flex flx-col">
+        <HeroSection dictionary={dictionary} lang={lang} />
+      </div>
+      <DemoSection dictionary={dictionary} />
+      <HowItWorksSection dictionary={dictionary} />
+      <PricingSection dictionary={dictionary} />
+      <CTAsection dictionary={dictionary} lang={lang} />
+    </div>
   );
 }

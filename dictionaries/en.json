@@ -1,79 +1,74 @@
 {
+  "header": {
+    "pricing": "Pricing",
+    "signIn": "Sign In",
+    "analysis": "Analysis",
+    "signOut": "Sign Out",
+    "language": "Переключитися на українську"
+  },
   "home": {
     "hero": {
-      "title": "Break Down Your Comments with",
-      "subtitle": "We turn your audience’s thoughts into a spectrum of emotions and insights. Deeper understanding of every comment—in numbers and between the lines.",
-      "cta": "Try It Now",
-      "beta": "Beta version: Support us to make the product even better!"
+      "title": "Transforming comments into clear analytics",
+      "subtitle": "Turn word chaos into structured insights with visualizations",
+      "button": "Try It Now",
+      "powered": "Powered by AI"
     },
-    "wwa": {
-      "title": "Who We Are",
-      "description": "We’re a team helping bloggers and content creators understand their audience through comments. Our AI analyzes every post or video to show you what works and what doesn’t. This is our beta—support us to build the full product!"
+    "demo": {
+      "title1": "Watch how transform",
+      "title2": " comments into insights",
+      "title3": " with Comment Pulse!"
     },
-    "researching": {
-      "description": "Dive into the stream of comments across all your platforms to capture the true voice of your audience. No word will go unnoticed."
-    },
-    "benefits": {
-      "title": "Unveil Your Audience's Thoughts and Feelings",
-      "subtitle": "Insights from Comments:",
-      "description1": "Turn every comment into clear data—emotions and feedback in numbers.",
-      "description2": "Create engaging content by understanding what matters to your followers.",
-      "description3": "Analyze platforms from X to Instagram in real time, wherever you are."
-    },
-    "efficiency": {
-      "title": "Time Savings with CommentPulse for Bloggers",
-      "classic": {
-        "title": "Manual Analysis of 500 Comments",
-        "task1": "Reviewing and reading all comments",
-        "time1": "4-6 hours",
-        "task2": "Identifying tone, key topics, and trends",
-        "time2": "1-2 hours",
-        "task3": "Analyzing engagement",
-        "time3": "1-2 hours",
-        "task4": "Drawing conclusions",
-        "time4": "1-2 hours",
-        "total": "Total time spent:",
-        "hours": "7-12 hours"
-      },
-      "commentPulse": {
-        "title": "CommentPulse",
-        "task1": "Collecting all comments",
-        "time1": "Instantly",
-        "task2": "Analyzing emotions, topics, and trends",
-        "time2": "Instantly",
-        "task3": "Engagement analysis",
-        "time3": "Instantly",
-        "task4": "Generating insights",
-        "time4": "Instantly",
-        "total": "Total time spent:",
-        "hours": "A few seconds"
-      }
+    "hiws": {
+      "subtitle": "How it works",
+      "maintitle": "Transform any comments into easily digestible analytics in just three simple steps",
+      "title1": "Add the link",
+      "description1": "Simply paste the link to a social media post, and we will automatically collect all the comments for analysis. No complicated settings — just one click!",
+      "title2": "AI Magic",
+      "description2": "Our artificial intelligence will instantly process the comments, categorize them by topics, emotions, and keywords. All automatically, quickly, and accurately.",
+      "title3": "Get the analytics",
+      "description3": "Receive a detailed report with charts, percentages, and examples. Understand your audience like never before — easy and clear!"
     },
     "pricing": {
-      "title": "Subscription Purchase",
-      "priceLabel": "Price:",
-      "solPrice": "{solAmount} SOL",
-      "usdEquivalent": "(equivalent to $5)",
-      "note": "Price updates every 5 minutes based on SOL rate."
-    }
-  },
-
-  "dashboard": {
-    "sidebar": {
-      "aside": {
-        "checkComments": "View Comments",
-        "notAllowed": "Temporarily Inactive",
-        "changeLanguage": "Change Language",
-        "escape": "Exit"
+      "title": "Pricing",
+      "month": "month",
+      "freeMonth": "free",
+      "free": {
+        "name": "Trial plan",
+        "description": "Try our analytics for free",
+        "item1": "3 analyses",
+        "item2": "Standard processing speed",
+        "cta": "Try now"
       },
-      "header": "Analyzing comments under the post/video - "
+      "paid": {
+        "name": "Paid plan",
+        "description": "Go unlimited with premium features",
+        "item1": "Unlimited analyses per month",
+        "item2": "Priority processing speed",
+        "item3": "Export reports in PDF",
+        "cta": "Buy now"
+      }
     },
-    "modals": {},
-    "main": {
-      "title": "Dashboard",
-      "welcome": "Welcome to your dashboard!",
-      "cta": "Try It Now"
+    "cta": {
+      "title": "Ready to achieve more in less time?",
+      "description": "Let technology handle the hard work so you can dedicate your time to what truly matters",
+      "cta": "Get Started"
     }
   },
-  "footer": "Contact Us"
+  "dashboard": {
+    "main": {
+      "title": "Your Social Media Hub",
+      "description": "Manage all your social networks in one place. Get quick insights and dive into any platform with a single click",
+      "cta": "Go to",
+      "unavailable": "Temporarily Unavailable"
+    },
+    "dearUsers": {
+      "description": {
+        "1": "Dear users!",
+        "2": "Unfortunately, our current version uses a simplified AI model.",
+        "3": "Please avoid submitting more than 200 comments at once — the model may fail to process such a large amount and return an error.",
+        "4": "We are working on improving the quality of the service and hope that, with the help of investments, we will be able to implement a more powerful AI model for more accurate and high-quality analysis.",
+        "5": "Thank you for your understanding!"
+      }
+    }
+  }
 }

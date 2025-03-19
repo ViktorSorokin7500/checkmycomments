@@ -2,14 +2,14 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import { BgGradient } from "@/components/shared";
-import { DashboardMain } from "@/components/dashboard";
+import { NoticeBlock } from "@/components/dashboard";
 
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);
   return dictionary.default;
 }
 
-export default async function Dashboard({
+export default async function Telegram({
   params,
 }: {
   params: Promise<{ lang: Locale }>;
@@ -26,8 +26,9 @@ export default async function Dashboard({
   return (
     <section>
       <BgGradient />
-      <div className="mx-auto max-w-7xl px-6 py-12 sm:py-20 lg:px-8 space-y-4">
-        <DashboardMain lang={lang} dictionary={dictionary} />
+      <div className="mx-auto max-w-7xl px-6 py-12 sm:py-20 lg:px-8">
+        <h1 className="font-bold text-center">Telegram</h1>
+        <NoticeBlock dictionary={dictionary} />
       </div>
     </section>
   );

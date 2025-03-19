@@ -9,42 +9,55 @@ import { Locale } from "@/i18n.config";
 function getLocale(request: NextRequest): string {
   const pathname = request.nextUrl.pathname;
 
+  // Проверяем, есть ли локаль в URL
   const currentLocale = i18n.locales.find(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
 
+  // Если локаль найдена в URL, используем её
   if (currentLocale) return currentLocale;
 
+  // Если локали в URL нет, определяем по заголовкам
   const negotiatorHeaders: Record<string, string> = {};
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
   const languages = new Negotiator({ headers: negotiatorHeaders }).languages();
 
   const locales: string[] = [...i18n.locales];
-  const matchedLocale = matchLocale(languages, locales, i18n.defaultLocale);
-
-  const finalLocale = matchedLocale || i18n.defaultLocale || "en";
-  return finalLocale;
+  return (
+    matchLocale(languages, locales, i18n.defaultLocale) || i18n.defaultLocale
+  );
 }
 
 export default clerkMiddleware(async (auth, request: NextRequest) => {
   const { userId } = await auth();
-
   const pathname = request.nextUrl.pathname;
 
+  // Пропускаем API-запросы
   if (pathname.startsWith("/api")) {
     return NextResponse.next();
   }
 
+  // Пропускаем /sign-in и /sign-up (включая локализованные версии)
+  const isAuthPath = i18n.locales.some(
+    (locale) =>
+      pathname === `/${locale}/sign-in` ||
+      pathname === `/${locale}/sign-up` ||
+      pathname === "/sign-in" ||
+      pathname === "/sign-up"
+  );
+  if (isAuthPath) {
+    return NextResponse.next();
+  }
+
+  // Обрабатываем пути без локали или с "/undefined"
   const hasLocalePrefix = i18n.locales.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   );
-
-  if (pathname.startsWith("/undefined") || (!hasLocalePrefix && userId)) {
+  if (!hasLocalePrefix || pathname.startsWith("/undefined")) {
     const locale = getLocale(request);
     const safeLocale = i18n.locales.includes(locale as Locale)
       ? locale
-      : i18n.defaultLocale || "en";
-
+      : i18n.defaultLocale;
     const cleanPath = pathname.replace(/^\/undefined/, "");
     const redirectUrl = new URL(
       `/${safeLocale}${cleanPath === "" ? "/" : cleanPath}`,
@@ -53,6 +66,7 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
     return NextResponse.redirect(redirectUrl);
   }
 
+  // Редирект на dashboard для авторизованных пользователей
   if (
     userId &&
     (pathname === "/" ||
@@ -61,24 +75,17 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
     const locale = getLocale(request);
     const safeLocale = i18n.locales.includes(locale as Locale)
       ? locale
-      : i18n.defaultLocale || "en";
+      : i18n.defaultLocale;
     const redirectUrl = new URL(`/${safeLocale}/dashboard`, request.url);
     return NextResponse.redirect(redirectUrl);
   }
 
+  // Пропускаем статические файлы без добавления локали
   const skipLocalePaths = ["/sitemap.xml", "/robots.txt", "/ads.txt"];
   const isSkipPath = skipLocalePaths.some((skipPath) => pathname === skipPath);
 
-  if (!hasLocalePrefix && !isSkipPath) {
-    const locale = getLocale(request);
-    const safeLocale = i18n.locales.includes(locale as Locale)
-      ? locale
-      : i18n.defaultLocale || "en";
-    const redirectUrl = new URL(
-      `/${safeLocale}${pathname === "/" ? "" : pathname}`,
-      request.url
-    );
-    return NextResponse.redirect(redirectUrl);
+  if (isSkipPath) {
+    return NextResponse.next();
   }
 
   return NextResponse.next();

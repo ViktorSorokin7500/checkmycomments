@@ -1,4 +1,4 @@
-export * from "./header";
-export * from "./footer";
-export * from "./home";
-export * from "./dashboard";
+export { Header } from "./header";
+export { Footer } from "./footer";
+export { NavLink } from "./nav-link";
+export { BgGradient } from "./bg-gradient";
