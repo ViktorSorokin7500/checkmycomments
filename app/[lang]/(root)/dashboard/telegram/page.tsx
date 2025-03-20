@@ -2,7 +2,11 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import { BgGradient } from "@/components/shared";
-import { NoticeBlock } from "@/components/dashboard";
+import {
+  TelegramComments,
+  ModalWrapper,
+  NoticeBlock,
+} from "@/components/dashboard";
 
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);
@@ -29,6 +33,10 @@ export default async function Telegram({
       <div className="mx-auto max-w-7xl px-6 py-12 sm:py-20 lg:px-8">
         <h1 className="font-bold text-center">Telegram</h1>
         <NoticeBlock dictionary={dictionary} />
+        <div className="py-2 sm:py-6">
+          <ModalWrapper />
+          <TelegramComments lang={lang} />
+        </div>
       </div>
     </section>
   );

@@ -14,7 +14,6 @@ export function NoticeBlock({ dictionary }: WithTranslationsProps) {
     ${t[3]}
     ${t[4]}
     ${t[5]}
-
   `;
 
   return (
