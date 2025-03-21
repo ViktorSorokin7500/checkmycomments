@@ -38,7 +38,9 @@ export function TelegramComments({ lang }: { lang: Locale }) {
 
         const data = await res.json();
         if (data.error) throw new Error(data.error);
-        setAnalysisResult(data);
+        console.log("token =>", data.totalToken);
+
+        setAnalysisResult(data.combinedResults);
       } catch (err) {
         setError((err as Error).message);
       } finally {
@@ -88,8 +90,8 @@ export function TelegramComments({ lang }: { lang: Locale }) {
           "#DC143C", // кармін
           "#6A5ACD", // світлий індиго
           "#FFA07A", // світлий лососевий
-          "#FFDAB9", // персиковий
           "#E6E6FA", // лаванда
+          "#FFB6C1", // світло-рожевий
           "#FA8072", // лососевий
           "#F4A460", // піщаний
           "#FFFACD", // лимонний
@@ -141,3 +143,8 @@ export function TelegramComments({ lang }: { lang: Locale }) {
     </>
   );
 }
+
+///////////////////////
+////////////////////////
+//////////////////////
+//////////////////////

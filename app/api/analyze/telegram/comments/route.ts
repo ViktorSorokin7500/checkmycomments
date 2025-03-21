@@ -27,7 +27,7 @@ async function getAllComments(
   let offsetId = 0;
   const limit = 50;
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 2; i++) {
     const messages = await client.getMessages(channel, {
       limit,
       replyTo: postId,
@@ -41,21 +41,47 @@ async function getAllComments(
   return allMessages.map((msg) => msg.message).filter(Boolean);
 }
 
+// Настене день, й ти будеш активован, але цей день не сьогодні!!!
+// async function getAllComments(
+//   client: TelegramClient,
+//   channel: string,
+//   postId: number
+// ) {
+//   const allMessages = [];
+//   let offsetId = 0;
+//   const limit = 50;
+
+//   while (true) {
+//     const messages = await client.getMessages(channel, {
+//       limit,
+//       replyTo: postId,
+//       offsetId,
+//     });
+//     if (!messages.length) break;
+//     allMessages.push(...messages);
+//     offsetId = messages[messages.length - 1].id;
+//     await new Promise((resolve) => setTimeout(resolve, 500));
+//   }
+
+//   return allMessages.map((msg) => msg.message).filter(Boolean);
+// }
+
 async function analyzeCommentsChunk(
   comments: string[],
   lang: "en" | "uk",
+  tokenTracker: { total: number },
   retries = 2
 ) {
   const prompt =
     lang === "uk"
-      ? `Проаналізуй подані коментарі та розподіли їх за категоріями (максимум 10) на основі ключових тем, емоційного тону та повторюваних згадок (імена, об’єкти, події, терміни). Вияви найпомітніші тренди в коментарях, адаптуючись до їхнього змісту. Поверни валідний JSON-рядок у подвійних кавичках: [{"title": "", "description": "", "percentage": 0}], де:
+      ? `Проаналізуй подані коментарі та розподіли їх за категоріями (максимум 5) на основі ключових тем, емоційного тону та повторюваних згадок (імена, об’єкти, події, терміни). Вияви найпомітніші тренди в коментарях, адаптуючись до їхнього змісту. Поверни валідний JSON-рядок у подвійних кавичках: [{"title": "", "description": "", "percentage": 0}], де:
 - "title" — унікальна назва тренду чи теми,
 - "description" — аналіз: що обговорюється, які емоції переважають,
 - "percentage" — відсоток коментарів у цій категорії (0-100).
 Тільки JSON, українською. Ось коментарі:\n${comments
           .map((c) => `- ${c}`)
           .join("\n")}`
-      : `Analyze the provided comments and categorize them (max 10 categories) based on key topics, emotional tone, and recurring mentions. Return a valid JSON string in double quotes: [{"title": "", "description": "", "percentage": 0}], where "title" is a unique trend name, "description" analyzes the discussion and emotions, "percentage" is the share (0-100). Output JSON only, on English.\n${comments
+      : `Analyze the provided comments and categorize them (max 5 categories) based on key topics, emotional tone, and recurring mentions. Return a valid JSON string in double quotes: [{"title": "", "description": "", "percentage": 0}], where "title" is a unique trend name, "description" analyzes the discussion and emotions, "percentage" is the share (0-100). Output JSON only, on English.\n${comments
           .map((c) => `- ${c}`)
           .join("\n")}`;
 
@@ -79,7 +105,9 @@ async function analyzeCommentsChunk(
       );
 
       const content = response.data.choices[0].message.content;
-      console.log(`Tokens used: ${response.data.usage.total_tokens}`);
+      console.log(response.data.usage.total_tokens);
+
+      tokenTracker.total += response.data.usage.total_tokens;
 
       const jsonEndIndex = content.lastIndexOf("]") + 1;
       const jsonContent =
@@ -145,15 +173,15 @@ function combineResults(
     }))
     .sort((a, b) => b.percentage - a.percentage);
 
-  if (combined.length > 10) {
-    const top9 = combined.slice(0, 9);
-    const others = combined.slice(9);
+  if (combined.length > 15) {
+    const top14 = combined.slice(0, 14);
+    const others = combined.slice(14);
     const othersPercentage = others.reduce(
       (sum, item) => sum + item.percentage,
       0
     );
 
-    top9.push({
+    top14.push({
       title: lang === "uk" ? "Інше" : "Other",
       description:
         lang === "uk"
@@ -161,7 +189,7 @@ function combineResults(
           : "Comments outside main trends",
       percentage: othersPercentage,
     });
-    combined = top9;
+    combined = top14;
   }
 
   const totalPercentage = combined.reduce(
@@ -185,6 +213,7 @@ function combineResults(
 }
 
 export async function POST(request: Request) {
+  const tokenTracker = { total: 0 };
   const { url, lang = "uk" } = await request.json();
 
   try {
@@ -220,7 +249,8 @@ export async function POST(request: Request) {
       try {
         const chunkResult = await analyzeCommentsChunk(
           commentChunks[i],
-          lang as "uk" | "en"
+          lang as "uk" | "en",
+          tokenTracker
         );
         results.push(...chunkResult);
       } catch (e) {
@@ -237,7 +267,8 @@ export async function POST(request: Request) {
     }
 
     const combinedResults = combineResults(results, lang as "uk" | "en");
-    return NextResponse.json(combinedResults);
+    const finalTokenCount = tokenTracker.total;
+    return NextResponse.json({ combinedResults, totalToken: finalTokenCount });
   } catch (error) {
     console.error("General error:", error);
     const errorMessage =
