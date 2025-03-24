@@ -78,7 +78,8 @@
     },
     "wrapper": {
       "placeholder": "Paste the link",
-      "analyze": "Analyze"
+      "analyze": "Analyze",
+      "invalidLink": "Invalid link format"
     },
     "viewer": {
       "toast": "Please wait two minutes before the next attempt",

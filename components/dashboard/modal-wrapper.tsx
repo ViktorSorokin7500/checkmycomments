@@ -12,7 +12,25 @@ export function ModalWrapper({ dictionary }: WithTranslationsProps) {
 
   const handleAnalyze = () => {
     if (!link) return;
-    setUrl(link, "telegram");
+
+    const normalizedLink = link.trim();
+    let platform: "telegram" | "youtube" | null = null;
+
+    if (normalizedLink.includes("t.me")) {
+      platform = "telegram";
+    } else if (
+      normalizedLink.includes("youtube.com") ||
+      normalizedLink.includes("youtu.be")
+    ) {
+      platform = "youtube";
+    }
+
+    if (!platform) {
+      alert(t.invalidLink || "Invalid link format");
+      return;
+    }
+
+    setUrl(normalizedLink, platform);
     setLoading(true);
     setLink("");
   };

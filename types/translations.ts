@@ -39,7 +39,7 @@ export interface Translations {
         string
       >;
     };
-    wrapper: Record<"placeholder" | "analyze", string>;
+    wrapper: Record<"placeholder" | "analyze" | "invalidLink", string>;
     viewer: Record<
       | "toast"
       | "categoryItem"

@@ -40,11 +40,15 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
 
   useEffect(() => {
     const fetchAnalysis = async () => {
-      if (!url || platform !== "telegram" || analysisResult || error) return;
+      if (!url || analysisResult || error) return;
 
       setLoading(true);
       try {
-        const res = await fetch("/api/analyze/telegram/comments", {
+        const apiEndpoint =
+          platform === "telegram"
+            ? "/api/analyze/telegram/comments"
+            : "/api/analyze/youtube/comments";
+        const res = await fetch(apiEndpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ url, lang }),
