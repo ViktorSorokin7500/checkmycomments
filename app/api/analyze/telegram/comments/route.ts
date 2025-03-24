@@ -260,11 +260,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Error in route.ts:", error);
     const errorMessage =
-      error instanceof Error
-        ? error.message
-        : lang === "uk"
-        ? "Невідома помилка"
-        : "Unknown error";
+      error instanceof Error ? error.message && "message" : "Unknown error";
     return NextResponse.json(
       { error: errorMessage },
       {
