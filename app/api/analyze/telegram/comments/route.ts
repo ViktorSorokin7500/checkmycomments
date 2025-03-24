@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+import { sql } from "@/lib/db";
 import { TelegramClient } from "telegram";
 import { StringSession } from "telegram/sessions";
 import axios from "axios";
@@ -13,9 +15,7 @@ const client = new TelegramClient(
   session,
   Number(process.env.API_ID),
   process.env.API_HASH as string,
-  {
-    connectionRetries: 5,
-  }
+  { connectionRetries: 5 }
 );
 
 async function getAllComments(
@@ -40,31 +40,6 @@ async function getAllComments(
   }
   return allMessages.map((msg) => msg.message).filter(Boolean);
 }
-
-// Настене день, й ти будеш активован, але цей день не сьогодні!!!
-// async function getAllComments(
-//   client: TelegramClient,
-//   channel: string,
-//   postId: number
-// ) {
-//   const allMessages = [];
-//   let offsetId = 0;
-//   const limit = 50;
-
-//   while (true) {
-//     const messages = await client.getMessages(channel, {
-//       limit,
-//       replyTo: postId,
-//       offsetId,
-//     });
-//     if (!messages.length) break;
-//     allMessages.push(...messages);
-//     offsetId = messages[messages.length - 1].id;
-//     await new Promise((resolve) => setTimeout(resolve, 500));
-//   }
-
-//   return allMessages.map((msg) => msg.message).filter(Boolean);
-// }
 
 async function analyzeCommentsChunk(
   comments: string[],
@@ -138,18 +113,11 @@ async function analyzeCommentsChunk(
 }
 
 function combineResults(
-  results: {
-    title: string;
-    description: string;
-    percentage: number;
-  }[],
+  results: { title: string; description: string; percentage: number }[],
   lang: "uk" | "en"
 ) {
   const categoryMap: {
-    [key: string]: {
-      description: string;
-      percentage: number;
-    };
+    [key: string]: { description: string; percentage: number };
   } = {};
 
   results.forEach((item) => {
@@ -158,10 +126,7 @@ function combineResults(
     if (categoryMap[item.title]) {
       categoryMap[item.title].percentage += percentage;
     } else {
-      categoryMap[item.title] = {
-        description: item.description,
-        percentage,
-      };
+      categoryMap[item.title] = { description: item.description, percentage };
     }
   });
 
@@ -213,8 +178,24 @@ function combineResults(
 }
 
 export async function POST(request: Request) {
-  const tokenTracker = { total: 0 };
+  const authData = await auth();
+  const userId = authData.userId;
+  if (!userId)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const { url, lang = "uk" } = await request.json();
+  const tokenTracker = { total: 0 };
+
+  const userResult =
+    await sql`SELECT tokens FROM users WHERE clerk_id = ${userId}`;
+  if (userResult.length === 0)
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  const currentTokens = userResult[0].tokens;
+  if (currentTokens < 2000)
+    return NextResponse.json(
+      { error: "Insufficient tokens (<2000)" },
+      { status: 403 }
+    );
 
   try {
     const match = url.match(/https:\/\/t\.me\/([^\/]+)\/(\d+)/);
@@ -238,7 +219,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const chunkSize = 40; // Зменшено до 40 для стабільності
+    const chunkSize = 40;
     const commentChunks = [];
     for (let i = 0; i < comments.length; i += chunkSize) {
       commentChunks.push(comments.slice(i, i + chunkSize));
@@ -268,6 +249,12 @@ export async function POST(request: Request) {
 
     const combinedResults = combineResults(results, lang as "uk" | "en");
     const finalTokenCount = tokenTracker.total;
+
+    // Оновлення токенів у БД
+    await sql`UPDATE users SET tokens = ${
+      currentTokens - finalTokenCount
+    } WHERE clerk_id = ${userId}`;
+
     return NextResponse.json({ combinedResults, totalToken: finalTokenCount });
   } catch (error) {
     console.error("General error:", error);

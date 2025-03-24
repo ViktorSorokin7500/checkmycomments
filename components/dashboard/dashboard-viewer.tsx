@@ -55,9 +55,18 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
         });
 
         const data = await res.json();
-        if (data.error) throw new Error(data.error);
-        setAnalysisResult(data.combinedResults);
-        setToken(data.totalToken);
+        if (data.error) {
+          if (data.error === "Insufficient tokens (<2000)") {
+            toast.error("Too few tokens (<2000) for this operation", {
+              style: { background: "#FF4444", color: "#FFFFFF" },
+            });
+          } else {
+            throw new Error(data.error);
+          }
+        } else {
+          setAnalysisResult(data.combinedResults);
+          setToken(data.totalToken);
+        }
       } catch (err) {
         setError((err as Error).message);
       } finally {

@@ -3,6 +3,8 @@ import { MessageCircleMore } from "lucide-react";
 import { NavLink } from "./nav-link";
 import LangSwitcher from "./lang-switcher";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { sql } from "@/lib/db";
 
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);
@@ -10,7 +12,15 @@ async function getDictionary(lang: Locale) {
 }
 
 export async function Header({ lang }: { lang: Locale }) {
+  const { userId } = await auth();
   const t = await getDictionary(lang);
+
+  let userTokens = 0;
+  if (userId) {
+    const result =
+      await sql`SELECT tokens FROM users WHERE clerk_id = ${userId}`;
+    userTokens = result.length ? result[0].tokens : 0;
+  }
   return (
     <header>
       <nav className="container flex items-center justify-between py-4 px-2 lg:px-8 mx-auto">
@@ -33,7 +43,7 @@ export async function Header({ lang }: { lang: Locale }) {
           <SignedOut>
             <NavLink href={`/${lang}#pricing`}>{t.header.pricing}</NavLink>
           </SignedOut>
-          <SignedIn>количество токенов у пользователя</SignedIn>
+          <SignedIn>количество токенов у пользователя: {userTokens}</SignedIn>
         </div>
 
         <div className="flex lg:justify-end lg:flex-1">
