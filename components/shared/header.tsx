@@ -33,9 +33,7 @@ export async function Header({ lang }: { lang: Locale }) {
           <SignedOut>
             <NavLink href={`/${lang}#pricing`}>{t.header.pricing}</NavLink>
           </SignedOut>
-          <SignedIn>
-            <NavLink href={`/${lang}/paid`}>paid</NavLink>
-          </SignedIn>
+          <SignedIn>количество токенов у пользователя</SignedIn>
         </div>
 
         <div className="flex lg:justify-end lg:flex-1">
