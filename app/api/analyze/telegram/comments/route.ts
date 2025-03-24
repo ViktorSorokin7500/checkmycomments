@@ -178,46 +178,48 @@ function combineResults(
 }
 
 export async function POST(request: Request) {
-  const authData = await auth();
-  const userId = authData.userId;
-  if (!userId)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  const { url, lang = "uk" } = await request.json();
-  const tokenTracker = { total: 0 };
-
-  const userResult =
-    await sql`SELECT tokens FROM users WHERE clerk_id = ${userId}`;
-  if (userResult.length === 0)
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
-  const currentTokens = userResult[0].tokens;
-  if (currentTokens < 2000)
-    return NextResponse.json(
-      { error: "Insufficient tokens (<2000)" },
-      { status: 403 }
-    );
-
   try {
-    const match = url.match(/https:\/\/t\.me\/([^\/]+)\/(\d+)/);
-    if (!match) {
-      throw new Error(
-        lang === "uk" ? "Невірний формат посилання" : "Invalid URL format"
+    const authData = await auth();
+    const userId = authData.userId;
+    if (!userId)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const { url, lang = "uk" } = await request.json();
+    const tokenTracker = { total: 0 };
+
+    const userResult =
+      await sql`SELECT tokens FROM users WHERE clerk_id = ${userId}`;
+    if (userResult.length === 0)
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    const currentTokens = userResult[0].tokens;
+    if (currentTokens < 2000)
+      return NextResponse.json(
+        { error: "Insufficient tokens (<2000)" },
+        { status: 403 }
       );
-    }
+
+    const match = url.match(/https:\/\/t\.me\/([^\/]+)\/(\d+)/);
+    if (!match)
+      return NextResponse.json(
+        {
+          error:
+            lang === "uk" ? "Невірний формат посилання" : "Invalid URL format",
+        },
+        { status: 400 }
+      );
+
     const [, channel, postId] = match;
 
     await client.connect();
     await client.getEntity(channel);
     const comments = await getAllComments(client, channel, Number(postId));
-
-    if (!comments.length) {
+    if (!comments.length)
       return NextResponse.json(
         {
           error: lang === "uk" ? "Коментарів не знайдено" : "No comments found",
         },
         { status: 400 }
       );
-    }
 
     const chunkSize = 40;
     const commentChunks = [];
@@ -250,30 +252,27 @@ export async function POST(request: Request) {
     const combinedResults = combineResults(results, lang as "uk" | "en");
     const finalTokenCount = tokenTracker.total;
 
-    // Оновлення токенів у БД
     await sql`UPDATE users SET tokens = ${
       currentTokens - finalTokenCount
     } WHERE clerk_id = ${userId}`;
 
     return NextResponse.json({ combinedResults, totalToken: finalTokenCount });
   } catch (error) {
-    console.error("General error:", error);
+    console.error("Error in route.ts:", error);
     const errorMessage =
       error instanceof Error
         ? error.message
         : lang === "uk"
         ? "Невідома помилка"
         : "Unknown error";
-    if (axios.isAxiosError(error) && error.response) {
-      return NextResponse.json(
-        {
-          error: `${lang === "uk" ? "Помилка API" : "API Error"}: ${
-            error.response.status
-          } - ${JSON.stringify(error.response.data)}`,
-        },
-        { status: 500 }
-      );
-    }
-    return NextResponse.json({ error: errorMessage }, { status: 500 });
+    return NextResponse.json(
+      { error: errorMessage },
+      {
+        status:
+          error instanceof Error && error.message.includes("Unauthorized")
+            ? 401
+            : 500,
+      }
+    );
   }
 }

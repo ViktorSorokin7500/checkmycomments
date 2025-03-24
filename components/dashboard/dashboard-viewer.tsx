@@ -10,6 +10,7 @@ import { useAnalysisStore } from "@/lib/store";
 import toast from "react-hot-toast";
 import { Locale } from "@/i18n.config";
 import { OctagonMinus, Save, Tags } from "lucide-react";
+import { auth } from "@clerk/nextjs/server";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -54,7 +55,9 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
           body: JSON.stringify({ url, lang }),
         });
 
-        const data = await res.json();
+        const data = await res.json(); // Просто JSON, без text
+        if (!res.ok) throw new Error(data.error || "Server error");
+
         if (data.error) {
           if (data.error === "Insufficient tokens (<2000)") {
             toast.error("Too few tokens (<2000) for this operation", {
@@ -66,9 +69,22 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
         } else {
           setAnalysisResult(data.combinedResults);
           setToken(data.totalToken);
+
+          // Оновлюємо токени для Header
+          const tokenRes = await fetch("/api/get-tokens", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId: (await auth()).userId }),
+          });
+          const tokenData = await tokenRes.json();
+          if (tokenData.tokens !== undefined) {
+            window.dispatchEvent(
+              new CustomEvent("updateTokens", { detail: tokenData.tokens })
+            );
+          }
         }
       } catch (err) {
-        setError((err as Error).message);
+        setError((err as Error).message || "Unknown error");
       } finally {
         setLoading(false);
       }
