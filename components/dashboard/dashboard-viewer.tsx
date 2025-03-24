@@ -10,7 +10,7 @@ import { useAnalysisStore } from "@/lib/store";
 import toast from "react-hot-toast";
 import { Locale } from "@/i18n.config";
 import { OctagonMinus, Save, Tags } from "lucide-react";
-import { auth } from "@clerk/nextjs/server";
+import { useUser } from "@clerk/nextjs";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -34,6 +34,9 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
     setLastRetryTimestamp,
     reset,
   } = useAnalysisStore();
+
+  const { user } = useUser();
+  const userId = user?.id;
 
   const [currentSection, setCurrentSection] = useState(0);
 
@@ -74,7 +77,7 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
           const tokenRes = await fetch("/api/get-tokens", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId: (await auth()).userId }),
+            body: JSON.stringify({ userId }),
           });
           const tokenData = await tokenRes.json();
           if (tokenData.tokens !== undefined) {
@@ -97,6 +100,7 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
     analysisResult,
     token,
     error,
+    userId,
     lang,
     setLoading,
     setToken,
