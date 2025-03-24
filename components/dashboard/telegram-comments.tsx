@@ -74,6 +74,8 @@ export function TelegramComments({ lang }: { lang: Locale }) {
     setAnalysisResult(null);
   };
 
+  console.log(analysisResult);
+
   const chartData = {
     labels: analysisResult?.map((r) => r.title) || [],
     datasets: [
@@ -143,8 +145,3 @@ export function TelegramComments({ lang }: { lang: Locale }) {
     </>
   );
 }
-
-///////////////////////
-////////////////////////
-//////////////////////
-//////////////////////

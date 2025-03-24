@@ -32,8 +32,27 @@ export interface Translations {
   };
   dashboard: {
     main: Record<"title" | "description" | "cta" | "unavailable", string>;
+    header: Record<"back" | "toDashboard", string>;
     dearUsers: {
-      description: Record<"1" | "2" | "3" | "4" | "5", string>;
+      description: Record<
+        "1" | "2" | "3" | "4" | "5" | "collapse" | "expand",
+        string
+      >;
     };
+    wrapper: Record<"placeholder" | "analyze", string>;
+    viewer: Record<
+      | "toast"
+      | "categoryItem"
+      | "descriptionItem"
+      | "percentagesItem"
+      | "error"
+      | "repeat"
+      | "noAnalisisTitle"
+      | "noAnalysisDescription"
+      | "tokens"
+      | "save"
+      | "reset",
+      string
+    >;
   };
 }

@@ -61,14 +61,37 @@
       "cta": "Go to",
       "unavailable": "Temporarily Unavailable"
     },
+    "header": {
+      "back": "Back",
+      "toDashboard": " to dashboard"
+    },
     "dearUsers": {
       "description": {
         "1": "Dear users!",
         "2": "Unfortunately, our current version uses a simplified AI model.",
-        "3": "Please avoid submitting more than 200 comments at once — the model may fail to process such a large amount and return an error.",
+        "3": "The model might not handle a large volume and could return an error.",
         "4": "We are working on improving the quality of the service and hope that, with the help of investments, we will be able to implement a more powerful AI model for more accurate and high-quality analysis.",
-        "5": "Thank you for your understanding!"
+        "5": "Thank you for your understanding!",
+        "collapse": "collapse",
+        "expand": "expand"
       }
+    },
+    "wrapper": {
+      "placeholder": "Paste the link",
+      "analyze": "Analyze"
+    },
+    "viewer": {
+      "toast": "Please wait two minutes before the next attempt",
+      "categoryItem": "Category",
+      "descriptionItem": "Description of key points",
+      "percentagesItem": "Percentage",
+      "error": "Error: please try again",
+      "repeat": "Repeat",
+      "noAnalisisTitle": "Oops, it's empty here",
+      "noAnalysisDescription": "Drop a link — and we’ll throw an analytics party 🎉",
+      "tokens": "tokens spent",
+      "save": "save",
+      "reset": "reset"
     }
   }
 }

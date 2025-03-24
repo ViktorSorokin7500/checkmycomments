@@ -1,10 +1,15 @@
+import { Locale } from "@/i18n.config";
 import { cn } from "@/lib/utils";
 import { WithTranslationsProps } from "@/types/component-props";
 import { ArrowRight, CheckIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-export function PricingSection({ dictionary }: WithTranslationsProps) {
+interface PricingSectionProps extends WithTranslationsProps {
+  lang: Locale;
+}
+
+export function PricingSection({ dictionary, lang }: PricingSectionProps) {
   const t = dictionary.home.pricing;
   const plans = [
     {
@@ -13,7 +18,7 @@ export function PricingSection({ dictionary }: WithTranslationsProps) {
       price: 0,
       description: t.free.description,
       items: [t.free.item1, t.free.item2],
-      paymentLink: "",
+      paymentLink: `${lang}/sign-in`,
       priceId: "",
       cta: t.free.cta,
       month: t.month,
@@ -114,7 +119,7 @@ const PricingCard = ({
             className={cn(
               "w-full rounded-full flex items-center justify-center gap-2 bg-linear-to-r text-white border-2 py-2 transition-colors duration-500",
               id === "paid"
-                ? "border-lime-600 hover:border-green-600 from-green-900 to-lime-500 hover:from-lime-500 hover:to-green-900"
+                ? "border-lime-600 hover:border-green-600 from-green-900 to-lime-500 hover:from-lime-500 hover:to-green-900 grayscale pointer-events-none"
                 : "border-green-100 from-lime-400 to-green-500 hover:from-green-500 hover:to-lime-400"
             )}
           >

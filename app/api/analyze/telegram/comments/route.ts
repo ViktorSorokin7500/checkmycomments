@@ -76,9 +76,9 @@ async function analyzeCommentsChunk(
     lang === "uk"
       ? `Проаналізуй подані коментарі та розподіли їх за категоріями (максимум 5) на основі ключових тем, емоційного тону та повторюваних згадок (імена, об’єкти, події, терміни). Вияви найпомітніші тренди в коментарях, адаптуючись до їхнього змісту. Поверни валідний JSON-рядок у подвійних кавичках: [{"title": "", "description": "", "percentage": 0}], де:
 - "title" — унікальна назва тренду чи теми,
-- "description" — аналіз: що обговорюється, які емоції переважають,
+- "description" — детальний аналіз: що обговорюється, які емоції переважають, можеш додати ключові слова які використовувались для цього тренду/теми,
 - "percentage" — відсоток коментарів у цій категорії (0-100).
-Тільки JSON, українською. Ось коментарі:\n${comments
+Тільки JSON, виключно українською. Ось коментарі:\n${comments
           .map((c) => `- ${c}`)
           .join("\n")}`
       : `Analyze the provided comments and categorize them (max 5 categories) based on key topics, emotional tone, and recurring mentions. Return a valid JSON string in double quotes: [{"title": "", "description": "", "percentage": 0}], where "title" is a unique trend name, "description" analyzes the discussion and emotions, "percentage" is the share (0-100). Output JSON only, on English.\n${comments
@@ -90,7 +90,7 @@ async function analyzeCommentsChunk(
       const response = await axios.post(
         "https://api.together.xyz/v1/chat/completions",
         {
-          model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+          model: "mistralai/Mixtral-8x22B-Instruct-v0.1",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 16384,
           temperature: 0.7,

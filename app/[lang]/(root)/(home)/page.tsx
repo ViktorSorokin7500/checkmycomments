@@ -24,12 +24,12 @@ export default async function Home({
   return (
     <div className="relative w-full">
       <BgGradient />
-      <div className="flex flx-col">
+      <div className="flex flex-col">
         <HeroSection dictionary={dictionary} lang={lang} />
       </div>
       <DemoSection dictionary={dictionary} />
       <HowItWorksSection dictionary={dictionary} />
-      <PricingSection dictionary={dictionary} />
+      <PricingSection dictionary={dictionary} lang={lang} />
       <CTAsection dictionary={dictionary} lang={lang} />
     </div>
   );

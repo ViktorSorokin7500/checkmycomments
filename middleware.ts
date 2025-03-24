@@ -40,10 +40,7 @@ export default clerkMiddleware(async (auth, request: NextRequest) => {
   // Пропускаем /sign-in и /sign-up (включая локализованные версии)
   const isAuthPath = i18n.locales.some(
     (locale) =>
-      pathname === `/${locale}/sign-in` ||
-      pathname === `/${locale}/sign-up` ||
-      pathname === "/sign-in" ||
-      pathname === "/sign-up"
+      pathname === `/${locale}/sign-in` || pathname === `/${locale}/sign-up`
   );
   if (isAuthPath) {
     return NextResponse.next();

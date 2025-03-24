@@ -5,6 +5,7 @@ import { Locale, i18n } from "@/i18n.config";
 import { Toaster } from "react-hot-toast";
 import { Source_Sans_3 as FontSans } from "next/font/google";
 import { Footer, Header } from "@/components/shared";
+import { enClerk, ukClerk } from "@/lib/clerkLocalizations";
 
 const fontSans = FontSans({
   variable: "--font-sans",
@@ -30,8 +31,13 @@ export default async function RootLayout({
 }) {
   const { lang } = await params;
 
+  const clerkLocalization = lang === "uk" ? ukClerk : enClerk;
+
   return (
     <ClerkProvider
+      localization={clerkLocalization}
+      signInUrl={`/${lang}/sign-in`}
+      signUpUrl={`/${lang}/sign-up`}
       signInFallbackRedirectUrl={`/${lang}/dashboard`}
       signUpFallbackRedirectUrl={`/${lang}/dashboard`}
     >

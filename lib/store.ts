@@ -4,6 +4,7 @@ interface AnalysisState {
   url: string | null;
   platform: "telegram" | "youtube" | null;
   analysisType: "comments" | null;
+  token: number | null;
   analysisResult:
     | { title: string; description: string; percentage: number }[]
     | null;
@@ -15,6 +16,7 @@ interface AnalysisState {
   setAnalysisResult: (
     result: { title: string; description: string; percentage: number }[] | null
   ) => void;
+  setToken: (token: number) => void;
   setError: (error: string | null) => void;
   setLastRetryTimestamp: (timestamp: number) => void;
   reset: () => void;
@@ -25,6 +27,7 @@ export const useAnalysisStore = create<AnalysisState>((set) => ({
   platform: null,
   analysisType: null,
   analysisResult: null,
+  token: null,
   loading: false,
   error: null,
   lastRetryTimestamp: null,
@@ -43,6 +46,7 @@ export const useAnalysisStore = create<AnalysisState>((set) => ({
       loading: false,
       error: null,
     })),
+  setToken: (token) => set({ token }),
   setError: (error) => set({ error, loading: false }),
   setLastRetryTimestamp: (timestamp) => set({ lastRetryTimestamp: timestamp }),
   reset: () =>
