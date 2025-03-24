@@ -194,7 +194,9 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
   if (error) {
     return (
       <div className="text-center">
-        <p className="text-lg text-red-600">{t.error}</p>
+        <p className="text-lg text-red-600">
+          {t.error} {error}
+        </p>
         <Button
           onClick={handleRetry}
           className="mt-4 bg-lime-600 text-white hover:bg-lime-500"
