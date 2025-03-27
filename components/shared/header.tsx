@@ -2,9 +2,9 @@ import { Locale } from "@/i18n.config";
 import { MessageCircleMore } from "lucide-react";
 import { NavLink } from "./nav-link";
 import LangSwitcher from "./lang-switcher";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { auth } from "@clerk/nextjs/server";
-import { sql } from "@/lib/db";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { TokenCounter } from "./token-counter";
+import { UserButtonWrapper } from "./user-button-wrapper";
 
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);
@@ -12,15 +12,9 @@ async function getDictionary(lang: Locale) {
 }
 
 export async function Header({ lang }: { lang: Locale }) {
-  const { userId } = await auth();
-  const t = await getDictionary(lang);
+  const dictionary = await getDictionary(lang);
+  const t = dictionary.header;
 
-  let userTokens = 0;
-  if (userId) {
-    const result =
-      await sql`SELECT tokens FROM users WHERE clerk_id = ${userId}`;
-    userTokens = result.length ? result[0].tokens : 0;
-  }
   return (
     <header>
       <nav className="container flex items-center justify-between py-4 px-2 lg:px-8 mx-auto">
@@ -41,22 +35,24 @@ export async function Header({ lang }: { lang: Locale }) {
 
         <div className="flex lg:justify-center gap-4 lg:gap-12 lg:items-center">
           <SignedOut>
-            <NavLink href={`/${lang}#pricing`}>{t.header.pricing}</NavLink>
+            <NavLink href={`/${lang}#pricing`}>{t.pricing}</NavLink>
           </SignedOut>
-          <SignedIn>количество токенов у пользователя: {userTokens}</SignedIn>
+          <SignedIn>
+            <TokenCounter dictionary={dictionary} />
+          </SignedIn>
         </div>
 
         <div className="flex lg:justify-end lg:flex-1">
           <SignedIn>
             <div className="flex gap-4 items-center">
-              <LangSwitcher lang={lang} title={t.header.language} />
-              <UserButton />
+              <LangSwitcher lang={lang} title={t.language} />
+              <UserButtonWrapper />
             </div>
           </SignedIn>
           <SignedOut>
             <div className="flex items-center gap-1">
-              <LangSwitcher lang={lang} title={t.header.language} />
-              <NavLink href={`/${lang}/sign-in`}>{t.header.signIn}</NavLink>
+              <LangSwitcher lang={lang} title={t.language} />
+              <NavLink href={`/${lang}/sign-in`}>{t.signIn}</NavLink>
             </div>
           </SignedOut>
         </div>

@@ -192,9 +192,9 @@ export async function POST(request: Request) {
     if (userResult.length === 0)
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     const currentTokens = userResult[0].tokens;
-    if (currentTokens < 2000)
+    if (currentTokens < 1200)
       return NextResponse.json(
-        { error: "Insufficient tokens (<2000)" },
+        { error: "Insufficient tokens (<1200)" },
         { status: 403 }
       );
 

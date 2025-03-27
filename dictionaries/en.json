@@ -4,7 +4,8 @@
     "signIn": "Sign In",
     "analysis": "Analysis",
     "signOut": "Sign Out",
-    "language": "Переключитися на українську"
+    "language": "Переключитися на українську",
+    "tokens": "Total tokens"
   },
   "home": {
     "hero": {
@@ -30,12 +31,12 @@
     },
     "pricing": {
       "title": "Pricing",
-      "month": "month",
-      "freeMonth": "free",
+      "month": "1M tokens",
+      "freeMonth": "tokens for free",
       "free": {
         "name": "Trial plan",
         "description": "Try our analytics for free",
-        "item1": "3 analyses",
+        "item1": "Up to 5 analyses",
         "item2": "Standard processing speed",
         "cta": "Try now"
       },
@@ -79,7 +80,8 @@
     "wrapper": {
       "placeholder": "Paste the link",
       "analyze": "Analyze",
-      "invalidLink": "Invalid link format"
+      "invalidLink": "Invalid link format",
+      "emptyLink": "Please enter a URL"
     },
     "viewer": {
       "toast": "Please wait two minutes before the next attempt",
@@ -92,7 +94,8 @@
       "noAnalysisDescription": "Drop a link — and we’ll throw an analytics party 🎉",
       "tokens": "tokens spent",
       "save": "save",
-      "reset": "reset"
+      "reset": "reset",
+      "errorToaster": "You have insufficient tokens to perform this action"
     }
   }
 }

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { jsonrepair } from "jsonrepair";
+import { auth } from "@clerk/nextjs/server";
+import { sql } from "@/lib/db";
 
 if (!process.env.YOUTUBE_API_KEY)
   throw new Error("YOUTUBE_API_KEY is not defined");
@@ -44,7 +46,6 @@ async function getAllComments(videoId: string): Promise<string[]> {
         maxResults,
         pageToken: nextPageToken || undefined,
       };
-      // Фильтруем undefined и приводим всё к строкам
       const queryString = new URLSearchParams(
         Object.entries(params)
           .filter(([, value]) => value !== undefined)
@@ -231,9 +232,22 @@ function combineResults(
 export async function POST(request: Request) {
   const tokenTracker = { total: 0 };
 
-  console.log("POST request received");
-
   try {
+    const authData = await auth();
+    const userId = authData.userId;
+    if (!userId)
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+    const userResult =
+      await sql`SELECT tokens FROM users WHERE clerk_id = ${userId}`;
+    if (userResult.length === 0)
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    const currentTokens = userResult[0].tokens;
+    if (currentTokens < 1200)
+      return NextResponse.json(
+        { error: "Insufficient tokens (<1200)" },
+        { status: 403 }
+      );
     const body = await request.json();
     console.log("Request body:", body);
 
@@ -260,13 +274,13 @@ export async function POST(request: Request) {
         lang === "uk" ? "Невірний формат посилання" : "Invalid URL format"
       );
     }
-    // Берем оригинальный videoId из URL, а не из группы захвата
+
     const urlParts = url.split("v=");
     const videoIdFromUrl =
       urlParts.length > 1
         ? urlParts[1].split("&")[0]
         : url.match(/[a-zA-Z0-9_-]{11}/)?.[0];
-    const videoId = videoIdFromUrl || videoIdMatch[1]; // Сохраняем оригинальный регистр
+    const videoId = videoIdFromUrl || videoIdMatch[1];
     console.log("Extracted videoId:", videoId);
 
     const comments = await getAllComments(videoId);
@@ -311,10 +325,15 @@ export async function POST(request: Request) {
 
     const combinedResults = combineResults(results, lang as "uk" | "en");
     const finalTokenCount = tokenTracker.total;
+
+    await sql`UPDATE users SET tokens = ${
+      currentTokens - finalTokenCount
+    } WHERE clerk_id = ${userId}`;
+
     return NextResponse.json({ combinedResults, totalToken: finalTokenCount });
   } catch (error) {
     console.error("General error:", error);
-    const lang = "uk"; // Fallback
+    const lang = (await request.json())?.lang || "uk";
     const errorMessage =
       error instanceof Error
         ? error.message

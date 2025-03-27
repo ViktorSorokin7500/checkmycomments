@@ -1,6 +1,6 @@
 export interface Translations {
   header: Record<
-    "pricing" | "signIn" | "signOut" | "analysis" | "language",
+    "pricing" | "signIn" | "signOut" | "analysis" | "language" | "tokens",
     string
   >;
   home: {
@@ -39,7 +39,10 @@ export interface Translations {
         string
       >;
     };
-    wrapper: Record<"placeholder" | "analyze" | "invalidLink", string>;
+    wrapper: Record<
+      "placeholder" | "analyze" | "invalidLink" | "emptyLink",
+      string
+    >;
     viewer: Record<
       | "toast"
       | "categoryItem"
@@ -51,7 +54,8 @@ export interface Translations {
       | "noAnalysisDescription"
       | "tokens"
       | "save"
-      | "reset",
+      | "reset"
+      | "errorToaster",
       string
     >;
   };

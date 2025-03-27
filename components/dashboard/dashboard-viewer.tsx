@@ -35,6 +35,10 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
     reset,
   } = useAnalysisStore();
 
+  useEffect(() => {
+    reset();
+  }, [reset]);
+
   const { user } = useUser();
   const userId = user?.id;
 
@@ -58,38 +62,37 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
           body: JSON.stringify({ url, lang }),
         });
 
-        const data = await res.json(); // Просто JSON, без text
-        if (!res.ok) throw new Error(data.error || "Server error");
-
-        if (data.error) {
-          if (data.error === "Insufficient tokens (<2000)") {
-            toast.error("Too few tokens (<2000) for this operation", {
+        const data = await res.json();
+        if (!res.ok) {
+          if (data.error === "Insufficient tokens (<1200)") {
+            toast.error(t.errorToaster, {
               style: { background: "#FF4444", color: "#FFFFFF" },
             });
-          } else {
-            throw new Error(data.error);
+            setLoading(false);
+            return;
           }
-        } else {
-          setAnalysisResult(data.combinedResults);
-          setToken(data.totalToken);
+          throw new Error(data.error || "Server error");
+        }
 
-          // Оновлюємо токени для Header
-          const tokenRes = await fetch("/api/get-tokens", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId }),
-          });
-          const tokenData = await tokenRes.json();
-          if (tokenData.tokens !== undefined) {
-            window.dispatchEvent(
-              new CustomEvent("updateTokens", { detail: tokenData.tokens })
-            );
-          }
+        setAnalysisResult(data.combinedResults);
+        setToken(data.totalToken);
+
+        const tokenRes = await fetch("/api/get-tokens", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId }),
+        });
+        const tokenData = await tokenRes.json();
+        if (tokenData.tokens !== undefined) {
+          window.dispatchEvent(
+            new CustomEvent("updateTokens", { detail: tokenData.tokens })
+          );
         }
       } catch (err) {
         setError((err as Error).message || "Unknown error");
       } finally {
         setLoading(false);
+        setCurrentSection(0);
       }
     };
 
@@ -106,6 +109,7 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
     setToken,
     setAnalysisResult,
     setError,
+    t.errorToaster,
   ]);
 
   const handleRetry = () => {

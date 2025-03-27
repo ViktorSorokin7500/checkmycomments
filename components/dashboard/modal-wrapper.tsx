@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui";
 import { useAnalysisStore } from "@/lib/store";
 import { WithTranslationsProps } from "@/types/component-props";
+import toast from "react-hot-toast";
 
 export function ModalWrapper({ dictionary }: WithTranslationsProps) {
   const [link, setLink] = useState("");
@@ -11,7 +12,12 @@ export function ModalWrapper({ dictionary }: WithTranslationsProps) {
   const t = dictionary.dashboard.wrapper;
 
   const handleAnalyze = () => {
-    if (!link) return;
+    if (!link) {
+      toast.error(t.emptyLink || "Please enter a URL", {
+        style: { background: "#FF4444", color: "#FFFFFF" },
+      });
+      return;
+    }
 
     const normalizedLink = link.trim();
     let platform: "telegram" | "youtube" | null = null;

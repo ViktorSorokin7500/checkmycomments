@@ -27,7 +27,7 @@ export function PricingSection({ dictionary, lang }: PricingSectionProps) {
     {
       id: "paid",
       name: t.paid.name,
-      price: 3,
+      price: 5,
       description: t.paid.description,
       items: [t.paid.item1, t.paid.item2, t.paid.item3],
       paymentLink: "",
@@ -91,8 +91,8 @@ const PricingCard = ({
         </div>
 
         {id === "free" ? (
-          <p className="text-5xl tracking-tight uppercase font-semibold">
-            {freeMonth}
+          <p className="text-3xl tracking-tight uppercase font-bold">
+            20000 {freeMonth}
           </p>
         ) : (
           <div className="flex gap-2">

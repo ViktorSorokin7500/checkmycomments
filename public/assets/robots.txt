@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /en/
+Allow: /uk/
+Allow: /en/dashboard
+Allow: /uk/dashboard
+Allow: /en/dashboard/telegram
+Allow: /uk/dashboard/telegram
+Allow: /en/dashboard/youtube
+Allow: /uk/dashboard/youtube
+Disallow: /api/
+Disallow: /_not-found
+Disallow: /sign-in/
+Disallow: /sign-up/
+
+Sitemap: https://www.commentpulse.site/sitemap.xml
