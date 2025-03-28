@@ -104,14 +104,14 @@ const PricingCard = ({
           </div>
         )}
 
-        <div className="space-y-2.5 leading-relaxed text-base flex-1">
+        <ul className="space-y-2.5 leading-relaxed text-base flex-1">
           {items.map((item, i) => (
             <li key={i} className="flex items-center gap-2">
               <CheckIcon size={18} />
               <span>{item}</span>
             </li>
           ))}
-        </div>
+        </ul>
 
         <div className="space-y-2 flex justify-center w-full">
           <Link

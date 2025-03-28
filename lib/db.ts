@@ -8,6 +8,7 @@ export async function initDb() {
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
         clerk_id VARCHAR(255) UNIQUE NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
         tokens INTEGER DEFAULT 20000
       );
     `;

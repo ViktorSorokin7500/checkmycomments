@@ -12,7 +12,7 @@ interface HeroSectionProps extends WithTranslationsProps {
 export function HeroSection({ dictionary, lang }: HeroSectionProps) {
   const t = dictionary.home.hero;
   return (
-    <section className="relative mx-auto flex flex-col z-0 items-center justify-center py-16 sm:py-20 lg:pb-28 transition-all animate-in lg:px-12 max-w-7xl">
+    <section className="relative mx-auto flex flex-col z-0 items-center justify-center py-12 sm:py-20 lg:pb-28 transition-all animate-in px-4 lg:px-12 max-w-7xl">
       <div className="relative p-[1px] overflow-hidden rounded-full bg-linear-to-r from-green-200 via-green-500 to-green-800 animate-gradient-x cursor-default group">
         <Badge
           variant={"secondary"}
