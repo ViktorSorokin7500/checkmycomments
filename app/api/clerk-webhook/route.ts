@@ -18,12 +18,13 @@ export async function POST(request: Request) {
     // Якщо юзер створений, додаємо його в БД
     if (payload.type === "user.created") {
       const clerkId = payload.data.id;
+      const email = payload.data.email_addresses[0].email_address;
       await sql`
-        INSERT INTO users (clerk_id, tokens)
-        VALUES (${clerkId}, 20000)
+        INSERT INTO users (clerk_id, email, tokens)
+        VALUES (${clerkId}, ${email}, 20000)
         ON CONFLICT (clerk_id) DO NOTHING;
       `;
-      console.log(`User ${clerkId} added with 20000 tokens`);
+      console.log(`User ${clerkId} - ${email} added with 20000 tokens`);
     }
 
     return NextResponse.json({ success: true });
