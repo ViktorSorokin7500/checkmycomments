@@ -31,7 +31,10 @@ export interface Translations {
     cta: Record<"title" | "description" | "cta", string>;
   };
   dashboard: {
-    main: Record<"title" | "description" | "cta" | "unavailable", string>;
+    main: Record<
+      "title" | "description" | "cta" | "unavailable" | "available",
+      string
+    >;
     header: Record<"back" | "toDashboard", string>;
     dearUsers: {
       description: Record<

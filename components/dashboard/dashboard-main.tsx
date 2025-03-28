@@ -38,13 +38,13 @@ export function DashboardMain({ dictionary, lang }: DashboardMainProps) {
       id: "youtube",
       icon: <FaYoutube size={52} fill="#FF0000" />,
       label: "Youtube",
-      description: "query.length",
+      description: t.available,
     },
     {
       id: "telegram",
       icon: <FaTelegram size={52} fill="#229ED9" />,
       label: "Telegram",
-      description: "query.length",
+      description: t.available,
     },
     {
       id: "facebook",

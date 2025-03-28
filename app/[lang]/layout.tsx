@@ -13,10 +13,46 @@ const fontSans = FontSans({
   weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export const metadata: Metadata = {
-  title: "Social Analyzer",
-  description: "Analyze comments from social platforms",
+const localizedMetadata = {
+  en: {
+    description: "Analyze comments from social platforms",
+    keywords: "social media, comments, analysis, tool",
+  },
+  uk: {
+    description: "Аналізуйте коментарі з соціальних платформ",
+    keywords: "соціальні мережі, коментарі, аналіз, інструмент",
+  },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+
+  return {
+    title: {
+      template: "%s | Comment Pulse",
+      default: "Comment Pulse",
+    },
+    description: localizedMetadata[lang].description,
+    keywords: localizedMetadata[lang].keywords,
+    openGraph: {
+      title: "Comment Pulse",
+      description: localizedMetadata[lang].description,
+      url: `https://www.commentpulse.site/${lang}`,
+      type: "website",
+      locale: lang === "en" ? "en_US" : "uk_UA",
+      siteName: "Social Analyzer",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Comment Pulse",
+      description: localizedMetadata[lang].description,
+    },
+  };
+}
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));

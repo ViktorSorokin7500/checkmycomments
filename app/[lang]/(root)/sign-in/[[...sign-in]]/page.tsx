@@ -1,5 +1,24 @@
 import { BgGradient } from "@/components/shared";
 import { SignIn } from "@clerk/nextjs";
+import type { Metadata } from "next";
+
+// Статичные метаданные для страницы входа
+export const metadata: Metadata = {
+  title: "Sign In",
+  description: "Log in to access your social media analysis dashboard",
+  keywords: "sign in, login, social media, analysis",
+  openGraph: {
+    title: "Sign In",
+    description: "Log in to access your social media analysis dashboard",
+    url: "https://www.commentpulse.site/sign-in",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sign In",
+    description: "Log in to access your social media analysis dashboard",
+  },
+};
 
 export default function Page() {
   return (

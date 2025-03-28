@@ -60,7 +60,8 @@
       "title": "Your Social Media Hub",
       "description": "Manage all your social networks in one place. Get quick insights and dive into any platform with a single click",
       "cta": "Go to",
-      "unavailable": "Temporarily Unavailable"
+      "unavailable": "Temporarily Unavailable",
+      "available": "Available"
     },
     "header": {
       "back": "Back",

@@ -3,6 +3,47 @@ import { redirect } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import { BgGradient } from "@/components/shared";
 import { DashboardHeader, DashboardViewer } from "@/components/dashboard";
+import type { Metadata } from "next";
+
+// Локализованные метаданные для YouTube-страницы
+const localizedMetadata = {
+  en: {
+    title: "YouTube Dashboard",
+    description: "Analyze and manage your YouTube comments",
+    keywords: "youtube, dashboard, social media, comments, analysis",
+  },
+  uk: {
+    title: "Панель YouTube",
+    description: "Аналізуйте та керуйте коментарями з YouTube",
+    keywords: "youtube, панель керування, соціальні мережі, коментарі, аналіз",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+
+  return {
+    title: localizedMetadata[lang].title,
+    description: localizedMetadata[lang].description,
+    keywords: localizedMetadata[lang].keywords,
+    openGraph: {
+      title: localizedMetadata[lang].title,
+      description: localizedMetadata[lang].description,
+      url: `https://www.commentpulse.site/${lang}/dashboard/youtube`,
+      type: "website",
+      locale: lang === "en" ? "en_US" : "uk_UA",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: localizedMetadata[lang].title,
+      description: localizedMetadata[lang].description,
+    },
+  };
+}
 
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);

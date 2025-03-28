@@ -3,7 +3,46 @@ import { redirect } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import { BgGradient } from "@/components/shared";
 import { DashboardHeader, DashboardViewer } from "@/components/dashboard";
+import type { Metadata } from "next";
 
+const localizedMetadata = {
+  en: {
+    title: "Telegram Dashboard",
+    description: "Analyze your Telegram comments and interactions",
+    keywords: "telegram, dashboard, social media, comments, analysis",
+  },
+  uk: {
+    title: "Панель Telegram",
+    description: "Аналізуйте коментарі та взаємодії у Telegram",
+    keywords: "telegram, панель керування, соціальні мережі, коментарі, аналіз",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+
+  return {
+    title: localizedMetadata[lang].title,
+    description: localizedMetadata[lang].description,
+    keywords: localizedMetadata[lang].keywords,
+    openGraph: {
+      title: localizedMetadata[lang].title,
+      description: localizedMetadata[lang].description,
+      url: `https://www.commentpulse.site/${lang}/dashboard/telegram`,
+      type: "website",
+      locale: lang === "en" ? "en_US" : "uk_UA",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: localizedMetadata[lang].title,
+      description: localizedMetadata[lang].description,
+    },
+  };
+}
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);
   return dictionary.default;

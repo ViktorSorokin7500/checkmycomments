@@ -3,6 +3,46 @@ import { redirect } from "next/navigation";
 import { Locale } from "@/i18n.config";
 import { BgGradient } from "@/components/shared";
 import { DashboardMain } from "@/components/dashboard";
+import type { Metadata } from "next";
+
+const localizedMetadata = {
+  en: {
+    title: "Dashboard",
+    description: "Manage and analyze your social media comments",
+    keywords: "dashboard, social media, analysis, comments",
+  },
+  uk: {
+    title: "Панель керування",
+    description: "Керуйте та аналізуйте коментарі з соціальних мереж",
+    keywords: "панель керування, соціальні мережі, аналіз, коментарі",
+  },
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}): Promise<Metadata> {
+  const { lang } = await params;
+
+  return {
+    title: localizedMetadata[lang].title,
+    description: localizedMetadata[lang].description,
+    keywords: localizedMetadata[lang].keywords,
+    openGraph: {
+      title: localizedMetadata[lang].title,
+      description: localizedMetadata[lang].description,
+      url: `https://www.commentpulse.site/${lang}/dashboard`,
+      type: "website",
+      locale: lang === "en" ? "en_US" : "uk_UA",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: localizedMetadata[lang].title,
+      description: localizedMetadata[lang].description,
+    },
+  };
+}
 
 async function getDictionary(lang: Locale) {
   const dictionary = await import(`@/dictionaries/${lang}.json`);
