@@ -1,3 +1,4 @@
+// app/sitemap.ts
 import { NextResponse } from "next/server";
 import { Locale, i18n } from "@/i18n.config";
 
@@ -10,14 +11,26 @@ export async function GET() {
     {
       loc: `${baseUrl}/${locale}`,
       lastmod: new Date().toISOString().split("T")[0],
-      changefreq: "daily",
+      changefreq: "daily" as const,
       priority: "1.0",
     },
     {
       loc: `${baseUrl}/${locale}/dashboard`,
       lastmod: new Date().toISOString().split("T")[0],
-      changefreq: "weekly",
+      changefreq: "weekly" as const,
       priority: "0.8",
+    },
+    {
+      loc: `${baseUrl}/${locale}/dashboard/telegram`,
+      lastmod: new Date().toISOString().split("T")[0],
+      changefreq: "weekly" as const,
+      priority: "0.7",
+    },
+    {
+      loc: `${baseUrl}/${locale}/dashboard/youtube`,
+      lastmod: new Date().toISOString().split("T")[0],
+      changefreq: "weekly" as const,
+      priority: "0.7",
     },
   ]);
 
