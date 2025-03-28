@@ -19,14 +19,26 @@ export async function POST(request: Request) {
     if (payload.type === "user.created") {
       const clerkId = payload.data.id;
       const email = payload.data.email_addresses[0].email_address;
-      await sql`
+
+      const existingUser = await sql`
+      SELECT * FROM users WHERE email = ${email} LIMIT 1;
+    `;
+      if (existingUser.length > 0) {
+        await sql`
+        UPDATE users
+        SET clerk_id = ${clerkId}
+        WHERE email = ${email};
+  `;
+        console.log(`User with email ${email} updated to clerk_id ${clerkId}`);
+      } else {
+        await sql`
         INSERT INTO users (clerk_id, email, tokens)
         VALUES (${clerkId}, ${email}, 20000)
         ON CONFLICT (clerk_id) DO NOTHING;
       `;
-      console.log(`User ${clerkId} - ${email} added with 20000 tokens`);
+        console.log(`User ${clerkId} - ${email} added with 20000 tokens`);
+      }
     }
-
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Webhook error:", err);
