@@ -4,6 +4,8 @@ import { WithTranslationsProps } from "@/types/component-props";
 import { ArrowRight, CheckIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { MotionDiv, MotionH2, MotionSection } from "../shared";
+import { containerVariants, itemVariants } from "@/lib/constants";
 
 interface PricingSectionProps extends WithTranslationsProps {
   lang: Locale;
@@ -37,12 +39,24 @@ export function PricingSection({ dictionary, lang }: PricingSectionProps) {
     },
   ];
   return (
-    <section className="relative overflow-hidden" id="pricing">
-      <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12">
+    <MotionSection
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="relative overflow-hidden"
+      id="pricing"
+    >
+      <div className="py-6 sm:py-12 lg:py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12">
         <div className="flex items-center justify-center w-full pb-12">
-          <h2 className="uppercase font-bold text-xl text-green-600">
+          <MotionH2
+            variants={itemVariants}
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+            className="uppercase font-bold text-xl text-green-600"
+          >
             {t.title}
-          </h2>
+          </MotionH2>
         </div>
         <div className="relative flex justify-center flex-col lg:flex-row items-center lg:items-stretch gap-8">
           {plans.map((plan) => (
@@ -50,7 +64,7 @@ export function PricingSection({ dictionary, lang }: PricingSectionProps) {
           ))}
         </div>
       </div>
-    </section>
+    </MotionSection>
   );
 }
 
@@ -76,7 +90,16 @@ const PricingCard = ({
   freeMonth?: string;
 }) => {
   return (
-    <div className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-200">
+    <MotionDiv
+      variants={itemVariants}
+      initial={{ x: 50, opacity: 0 }}
+      whileInView={{ x: 0, opacity: 1 }}
+      transition={{
+        duration: 0.5,
+        delay: id === "paid" ? 0.6 : 0.4,
+      }}
+      className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-200"
+    >
       <div
         className={cn(
           "relative flex flex-col h-full gap-4 lg:gap-8 z-10 p-8 border-[1px] border-gray-500/20 rounded-2xl shadow-lg transition-transform duration-500",
@@ -127,6 +150,6 @@ const PricingCard = ({
           </Link>
         </div>
       </div>
-    </div>
+    </MotionDiv>
   );
 };

@@ -212,7 +212,18 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
     setCurrentSection(Math.min(Math.max(index, 0), sections.length - 1));
 
   if (loading) {
-    return <div className="loader mx-auto mt-12 scale-200" />;
+    return (
+      <div className="space-y-12">
+        <div className="loader mx-auto mt-12 scale-200" />
+        <p className="text-center text-green-700 animate-pulse">
+          <span className="uppercase font-semibold text-xl">
+            {t.loading1}...
+          </span>{" "}
+          <br /> <span className="text-sm">({t.loading2})</span>
+        </p>
+        <p></p>
+      </div>
+    );
   }
 
   if (error) {

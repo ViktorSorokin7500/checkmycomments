@@ -17,7 +17,21 @@
     "demo": {
       "title1": "Watch how transform",
       "title2": " comments into insights",
-      "title3": " with Comment Pulse!"
+      "title3": " with Comment Pulse!",
+      "category": "Category",
+      "other": "Other",
+      "points1": "Finds key words — understand what concerns people",
+      "points2": "Helps respond to criticism before it escalates",
+      "points3": "Turns feedback into ideas for new content",
+      "points4": "Saves hours on comment processing",
+      "overtitle": "Quick Overview",
+      "overdesc": "This is a tool for in-depth analysis of social media comments. Collect data from Telegram, YouTube, and other platforms to track trends, discover what concerns your audience the most, and identify key words and terms that dominate discussions.",
+      "chartitle": "How the processed data is visualized",
+      "desctitle": "Title of the viewed category",
+      "shortdesc": "A detailed breakdown of comments so you can dive into the thoughts and emotions of your audience. You'll find out which sentiments prevail — positive feedback, criticism, or neutral comments — and understand what triggers these reactions.",
+      "longdesc": "A detailed breakdown of comments so you can dive into the thoughts and emotions of your audience. You'll find out which sentiments prevail — positive feedback, criticism, or neutral comments — and understand what triggers these reactions. We highlight key words and terms that are most frequently mentioned, such as 'quality,' 'speed,' or 'issue,' and show how they influence the perception of your content. This allows you not only to track trends but also to quickly identify what concerns your audience the most — whether it's excitement about a new product or complaints about delays — and respond in time to amplify the positive or address the negative.",
+      "percentage": "Percentage for this category",
+      "pointitle": "Comment Pulse — Your Best Assistant"
     },
     "hiws": {
       "subtitle": "How it works",
@@ -96,7 +110,9 @@
       "tokens": "tokens spent",
       "save": "save",
       "reset": "reset",
-      "errorToaster": "You have insufficient tokens to perform this action"
+      "errorToaster": "You have insufficient tokens to perform this action",
+      "loading1": "Processing",
+      "loading2": "this may take up to 2 minutes"
     }
   }
 }

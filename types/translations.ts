@@ -5,7 +5,26 @@ export interface Translations {
   >;
   home: {
     hero: Record<"title" | "subtitle" | "button" | "powered", string>;
-    demo: Record<"title1" | "title2" | "title3", string>;
+    demo: Record<
+      | "title1"
+      | "title2"
+      | "title3"
+      | "category"
+      | "other"
+      | "points1"
+      | "points2"
+      | "points3"
+      | "points4"
+      | "overtitle"
+      | "overdesc"
+      | "chartitle"
+      | "desctitle"
+      | "shortdesc"
+      | "longdesc"
+      | "percentage"
+      | "pointitle",
+      string
+    >;
     hiws: Record<
       | "subtitle"
       | "maintitle"
@@ -58,7 +77,9 @@ export interface Translations {
       | "tokens"
       | "save"
       | "reset"
-      | "errorToaster",
+      | "errorToaster"
+      | "loading1"
+      | "loading2",
       string
     >;
   };

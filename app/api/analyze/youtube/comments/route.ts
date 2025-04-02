@@ -190,15 +190,15 @@ function combineResults(
     }))
     .sort((a, b) => b.percentage - a.percentage);
 
-  if (combined.length > 15) {
-    const top14 = combined.slice(0, 14);
-    const others = combined.slice(14);
+  if (combined.length > 20) {
+    const top19 = combined.slice(0, 19);
+    const others = combined.slice(19);
     const othersPercentage = others.reduce(
       (sum, item) => sum + item.percentage,
       0
     );
 
-    top14.push({
+    top19.push({
       title: lang === "uk" ? "Інше" : "Other",
       description:
         lang === "uk"
@@ -206,7 +206,7 @@ function combineResults(
           : "Comments outside main trends",
       percentage: othersPercentage,
     });
-    combined = top14;
+    combined = top19;
   }
 
   const totalPercentage = combined.reduce(

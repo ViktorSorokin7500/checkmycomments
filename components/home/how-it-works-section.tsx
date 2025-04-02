@@ -6,6 +6,8 @@ import {
   MoveRight,
 } from "lucide-react";
 import React, { ReactNode } from "react";
+import { MotionDiv, MotionH2, MotionH3, MotionSection } from "../shared";
+import { containerVariants, itemVariants } from "@/lib/constants";
 
 type StepProps = {
   icon: ReactNode;
@@ -33,8 +35,13 @@ export function HowItWorksSection({ dictionary }: WithTranslationsProps) {
     },
   ];
   return (
-    <section className="relative overflow-hidden bg-gray-200">
-      <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12">
+    <MotionSection
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="relative overflow-hidden bg-gray-200"
+    >
+      <div className="py-6 sm:py-12 lg:py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 transform-gpu overflow-hidden blur-3xl"
@@ -48,18 +55,37 @@ export function HowItWorksSection({ dictionary }: WithTranslationsProps) {
           />
         </div>
 
-        <div className="text-center mb-16">
-          <h2 className="font-bold text-xl uppercase mb-3 text-green-600">
+        <div className="text-center mb:4 sm:mb-8">
+          <MotionH2
+            variants={itemVariants}
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="font-bold text-xl uppercase mb-3 text-green-600"
+          >
             {t.subtitle}
-          </h2>
-          <h3 className="font-bold text-3xl max-w-2xl mx-auto">
+          </MotionH2>
+          <MotionH3
+            variants={itemVariants}
+            initial={{ y: 20, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="font-bold text-3xl max-w-2xl mx-auto"
+          >
             {t.maintitle}
-          </h3>
+          </MotionH3>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto relative">
           {steps.map((step, index) => (
-            <div key={index} className="relative flex items-stretch">
+            <MotionDiv
+              variants={itemVariants}
+              initial={{ x: 50, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: (index + 1) * 0.5 }}
+              key={index}
+              className="relative flex items-stretch"
+            >
               <StepItem {...step} />
               {index < steps.length - 1 && (
                 <div className="absolute hidden lg:block top-1/2 -right-4 transform -translate-y-1/2 z-10">
@@ -70,11 +96,11 @@ export function HowItWorksSection({ dictionary }: WithTranslationsProps) {
                   />
                 </div>
               )}
-            </div>
+            </MotionDiv>
           ))}
         </div>
       </div>
-    </section>
+    </MotionSection>
   );
 }
 

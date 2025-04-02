@@ -4,6 +4,8 @@ import { Button } from "../ui";
 import Link from "next/link";
 import { Locale } from "@/i18n.config";
 import { ArrowRight } from "lucide-react";
+import { MotionDiv, MotionH2, MotionP } from "../shared";
+import { containerVariants, itemVariants } from "@/lib/constants";
 
 interface CTASectionProps extends WithTranslationsProps {
   lang: Locale;
@@ -13,7 +15,12 @@ export function CTAsection({ dictionary, lang }: CTASectionProps) {
   const t = dictionary.home.cta;
   return (
     <section className="relative overflow-hidden bg-gray-200">
-      <div className="py-12 lg:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12">
+      <MotionDiv
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="py-6 sm:py-12 lg:py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 lg:pt-12"
+      >
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 transform-gpu overflow-hidden blur-3xl"
@@ -28,15 +35,32 @@ export function CTAsection({ dictionary, lang }: CTASectionProps) {
         </div>
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+            <MotionH2
+              variants={itemVariants}
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
+            >
               {t.title}
-            </h2>
-            <p className="mx-auto max-w-xl text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            </MotionH2>
+            <MotionP
+              variants={itemVariants}
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="mx-auto max-w-xl text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
+            >
               {t.description}
-            </p>
+            </MotionP>
           </div>
           <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
-            <div>
+            <MotionDiv
+              variants={itemVariants}
+              initial={{ y: 20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
               <Button
                 size="lg"
                 variant={"link"}
@@ -49,10 +73,10 @@ export function CTAsection({ dictionary, lang }: CTASectionProps) {
                   {t.cta} <ArrowRight className="ml-2 size-4 animate-pulse" />
                 </Link>
               </Button>
-            </div>
+            </MotionDiv>
           </div>
         </div>
-      </div>
+      </MotionDiv>
     </section>
   );
 }
