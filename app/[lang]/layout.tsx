@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import "core-js/stable";
 import "../globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Locale, i18n } from "@/i18n.config";
