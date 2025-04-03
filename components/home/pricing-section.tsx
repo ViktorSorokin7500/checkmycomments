@@ -52,7 +52,7 @@ export function PricingSection({ dictionary, lang }: PricingSectionProps) {
             variants={itemVariants}
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
             className="uppercase font-bold text-xl text-green-600"
           >
             {t.title}
@@ -95,8 +95,8 @@ const PricingCard = ({
       initial={{ x: 50, opacity: 0 }}
       whileInView={{ x: 0, opacity: 1 }}
       transition={{
-        duration: 0.5,
-        delay: id === "paid" ? 0.6 : 0.4,
+        duration: 0.3,
+        delay: 0.2,
       }}
       className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-200"
     >
