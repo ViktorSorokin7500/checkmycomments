@@ -186,12 +186,12 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
           .map((item, idx) => (
             <div
               key={idx}
-              className="flex flex-col justify-center items-start h-full text-left px-12"
+              className="pt-6 flex flex-col gap-2 justify-center items-start h-full text-left px-12"
             >
               <h3 className="text-xl font-bold text-green-700 mb-2">
                 {t.categoryItem}: {item.title}
               </h3>
-              <p className="text-gray-700 mb-4">
+              <p className="text-gray-700 max-h-60 overflow-y-auto custom-scrollbar">
                 {t.descriptionItem}: {item.description}
               </p>
               <span className="text-lg font-semibold text-lime-600">
@@ -256,17 +256,19 @@ export function DashboardViewer({ dictionary, lang }: DashboardViewerProps) {
   return (
     <div className="relative p-4 sm:p-6 lg:p-8 bg-gray-100 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-xl border border-green-100 transition-all duration-300 hover:shadow-2xl hover:bg-gray-100/80 max-w-4xl mx-auto">
       <div className="absolute inset-0 bg-linear-to-br from-green-50/50 via-lime-50/30 to-transparent opacity-50 rounded-2xl sm:rounded-3xl" />
-      <div className="absolute top-1 sm:top-2 right-2 sm:right-4 flex items-center gap-1.5 text-xs sm:text-sm text-muted-foreground bg-white/90 px-2 sm:px-3 py-0.5 rounded-full shadow-xs">
-        <Tags size={14} />
-        {t.tokens}: {token}
-      </div>
+      {token && (
+        <div className="absolute top-1 sm:top-2 right-2 sm:right-4 flex items-center gap-1.5 text-xs sm:text-sm text-muted-foreground bg-white/90 px-2 sm:px-3 py-0.5 rounded-full shadow-xs">
+          <Tags size={14} />
+          {t.tokens}: {token}
+        </div>
+      )}
 
       <div className="absolute top-1 sm:top-2 left-2 sm:left-4 flex items-center gap-1.5 text-xs sm:text-sm bg-lime-400 text-white px-2 sm:px-3 py-0.5 rounded-full shadow-xs grayscale cursor-not-allowed">
         <Save size={14} />
         {t.save}
       </div>
       <div
-        className="absolute top-1 sm:top-2 left-[102px] sm:left-32 flex items-center gap-1.5 text-xs sm:text-sm bg-rose-400 hover:bg-rose-500 text-white px-2 sm:px-3 py-0.5 rounded-full shadow-xs cursor-pointer"
+        className="absolute top-1 sm:top-2 left-[102px] sm:left-32 hidden sm:flex items-center gap-1.5 text-xs sm:text-sm bg-rose-400 hover:bg-rose-500 text-white px-2 sm:px-3 py-0.5 rounded-full shadow-xs cursor-pointer"
         onClick={() => reset()}
       >
         <OctagonMinus size={14} />

@@ -60,7 +60,7 @@ export function HowItWorksSection({ dictionary }: WithTranslationsProps) {
             variants={itemVariants}
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
+            transition={{ duration: 0.2 }}
             className="font-bold text-xl uppercase mb-3 text-green-600"
           >
             {t.subtitle}
@@ -69,7 +69,7 @@ export function HowItWorksSection({ dictionary }: WithTranslationsProps) {
             variants={itemVariants}
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.2 }}
+            transition={{ duration: 0.2 }}
             className="font-bold text-3xl max-w-2xl mx-auto"
           >
             {t.maintitle}
@@ -82,7 +82,7 @@ export function HowItWorksSection({ dictionary }: WithTranslationsProps) {
               variants={itemVariants}
               initial={{ x: 50, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.3, delay: (index + 1) * 0.1 }}
+              transition={{ duration: 0.2 + index * 0.1 }}
               key={index}
               className="relative flex items-stretch"
             >

@@ -174,7 +174,7 @@ export function DemoSection({ dictionary }: WithTranslationsProps) {
               variants={itemVariants}
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.3 }}
               className="font-bold text-3xl max-w-2xl mx-auto px-4 sm:px-6"
             >
               {t.title1}
@@ -186,7 +186,7 @@ export function DemoSection({ dictionary }: WithTranslationsProps) {
           <MotionDiv
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.4 }}
             variants={itemVariants}
             className="relative p-4 sm:p-6 lg:p-8 bg-gray-100 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-xl border border-green-100 transition-all duration-300 hover:shadow-2xl hover:bg-gray-100/80 max-w-4xl mx-auto w-full"
           >

@@ -39,7 +39,7 @@ export function CTAsection({ dictionary, lang }: CTASectionProps) {
               variants={itemVariants}
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
+              transition={{ duration: 0.2 }}
               className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl"
             >
               {t.title}
@@ -48,7 +48,7 @@ export function CTAsection({ dictionary, lang }: CTASectionProps) {
               variants={itemVariants}
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
+              transition={{ duration: 0.2 }}
               className="mx-auto max-w-xl text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed"
             >
               {t.description}
@@ -59,7 +59,7 @@ export function CTAsection({ dictionary, lang }: CTASectionProps) {
               variants={itemVariants}
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
+              transition={{ duration: 0.2 }}
             >
               <Button
                 size="lg"

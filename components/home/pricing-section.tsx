@@ -95,8 +95,7 @@ const PricingCard = ({
       initial={{ x: 50, opacity: 0 }}
       whileInView={{ x: 0, opacity: 1 }}
       transition={{
-        duration: 0.3,
-        delay: 0.2,
+        duration: 0.2,
       }}
       className="relative w-full max-w-lg hover:scale-105 hover:transition-all duration-200"
     >
