@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { jsonrepair } from "jsonrepair";
 import { auth } from "@clerk/nextjs/server";
 import { sql } from "@/lib/db";
@@ -67,7 +67,7 @@ async function getAllComments(videoId: string): Promise<string[]> {
         )
       );
       nextPageToken = response.data.nextPageToken || "";
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     } while (nextPageToken && comments.length < 200);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
@@ -143,7 +143,13 @@ async function analyzeCommentsChunk(
         return JSON.parse(repairedContent);
       }
     } catch (e) {
+      const error = e as AxiosError;
       console.error(`Attempt ${attempt + 1} failed:`, e);
+      if (error.response?.status === 429) {
+        const retryAfter = Number(error.response.headers["retry-after"]) || 5; // По умолчанию 5 секунд
+        console.log(`Rate limit hit, waiting ${retryAfter} seconds`);
+        await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
+      }
       if (attempt === retries - 1) {
         console.error("All retries failed, returning empty result");
         return [];
@@ -296,31 +302,27 @@ export async function POST(request: Request) {
       commentChunks.push(comments.slice(i, i + chunkSize));
     }
 
-    const chunkResults = await Promise.all(
-      commentChunks.map(async (chunk, i) => {
-        try {
-          return await analyzeCommentsChunk(
-            chunk,
-            lang as "uk" | "en",
-            tokenTracker
-          );
-        } catch (e) {
-          console.error(`Failed to process chunk ${i}:`, e);
-          return [
-            {
-              title: lang === "uk" ? "Помилка обробки" : "Processing Error",
-              description:
-                lang === "uk"
-                  ? "Не вдалося проаналізувати частину коментарів"
-                  : "Failed to analyze some comments",
-              percentage: 0,
-            },
-          ];
-        }
-      })
-    );
-
-    const results = chunkResults.flat();
+    const results = [];
+    for (let i = 0; i < commentChunks.length; i++) {
+      try {
+        const chunkResult = await analyzeCommentsChunk(
+          commentChunks[i],
+          lang as "uk" | "en",
+          tokenTracker
+        );
+        results.push(...chunkResult);
+      } catch (e) {
+        console.error(`Failed to process chunk ${i}:`, e);
+        results.push({
+          title: lang === "uk" ? "Помилка обробки" : "Processing Error",
+          description:
+            lang === "uk"
+              ? "Не вдалося проаналізувати частину коментарів"
+              : "Failed to analyze some comments",
+          percentage: 0,
+        });
+      }
+    }
 
     const combinedResults = combineResults(results, lang as "uk" | "en");
     const finalTokenCount = tokenTracker.total;
