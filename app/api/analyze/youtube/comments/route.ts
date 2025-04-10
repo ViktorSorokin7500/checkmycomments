@@ -248,12 +248,10 @@ export async function POST(request: Request) {
         { error: "Insufficient tokens (<1200)" },
         { status: 403 }
       );
+
     const body = await request.json();
-    console.log("Request body:", body);
 
     const { url, lang = "uk" } = body;
-    console.log("Received URL:", url);
-    console.log("Language:", lang);
 
     if (!url || typeof url !== "string") {
       console.error("URL is missing or not a string:", url);
@@ -264,7 +262,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Извлекаем videoId без изменения регистра
     const videoIdMatch = url.match(
       /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i
     );
@@ -281,12 +278,10 @@ export async function POST(request: Request) {
         ? urlParts[1].split("&")[0]
         : url.match(/[a-zA-Z0-9_-]{11}/)?.[0];
     const videoId = videoIdFromUrl || videoIdMatch[1];
-    console.log("Extracted videoId:", videoId);
 
     const comments = await getAllComments(videoId);
 
     if (!comments.length) {
-      console.log("No comments found for videoId:", videoId);
       return NextResponse.json(
         {
           error: lang === "uk" ? "Коментарів не знайдено" : "No comments found",
@@ -301,27 +296,31 @@ export async function POST(request: Request) {
       commentChunks.push(comments.slice(i, i + chunkSize));
     }
 
-    const results = [];
-    for (let i = 0; i < commentChunks.length; i++) {
-      try {
-        const chunkResult = await analyzeCommentsChunk(
-          commentChunks[i],
-          lang as "uk" | "en",
-          tokenTracker
-        );
-        results.push(...chunkResult);
-      } catch (e) {
-        console.error(`Failed to process chunk ${i}:`, e);
-        results.push({
-          title: lang === "uk" ? "Помилка обробки" : "Processing Error",
-          description:
-            lang === "uk"
-              ? "Не вдалося проаналізувати частину коментарів"
-              : "Failed to analyze some comments",
-          percentage: 0,
-        });
-      }
-    }
+    const chunkResults = await Promise.all(
+      commentChunks.map(async (chunk, i) => {
+        try {
+          return await analyzeCommentsChunk(
+            chunk,
+            lang as "uk" | "en",
+            tokenTracker
+          );
+        } catch (e) {
+          console.error(`Failed to process chunk ${i}:`, e);
+          return [
+            {
+              title: lang === "uk" ? "Помилка обробки" : "Processing Error",
+              description:
+                lang === "uk"
+                  ? "Не вдалося проаналізувати частину коментарів"
+                  : "Failed to analyze some comments",
+              percentage: 0,
+            },
+          ];
+        }
+      })
+    );
+
+    const results = chunkResults.flat();
 
     const combinedResults = combineResults(results, lang as "uk" | "en");
     const finalTokenCount = tokenTracker.total;
